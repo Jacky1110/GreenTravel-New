@@ -20,5 +20,5 @@ public class DataBeen {
 
     public static String duration;
 
-    public static String allTime;
+    public static String qrconfirm;
 }

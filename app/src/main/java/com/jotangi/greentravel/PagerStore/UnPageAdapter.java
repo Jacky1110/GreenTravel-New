@@ -34,7 +34,6 @@ public class UnPageAdapter extends RecyclerView.Adapter<UnPageAdapter.ViewHolder
             Id = itemView.findViewById(R.id.ex_id);
             Name = itemView.findViewById(R.id.ex_pager);
             Day = itemView.findViewById(R.id.ex_day);
-            math = itemView.findViewById(R.id.tvmath);
             itemView.setOnClickListener(this);
         }
 
@@ -65,7 +64,6 @@ public class UnPageAdapter extends RecyclerView.Adapter<UnPageAdapter.ViewHolder
         holder.Id.setText(mData.get(position).id);
         holder.Name.setText(mData.get(position).name);
         holder.Day.setText(mData.get(position).day);
-        holder.math.setText(mData.get(position).math);
 
     }
 
@@ -86,7 +84,6 @@ class UnCouponModel {
     String name = "";
     String day = "";
     String id = "";
-    String math = "";
 }
 
 

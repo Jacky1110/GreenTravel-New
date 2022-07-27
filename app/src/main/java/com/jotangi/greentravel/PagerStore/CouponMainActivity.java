@@ -15,8 +15,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.jotangi.greentravel.Api.ApiEnqueue;
 import com.jotangi.greentravel.Base.BaseActivity;
 import com.jotangi.greentravel.CouponActivity;
+import com.jotangi.greentravel.DataBeen;
 import com.jotangi.greentravel.MainCouponFragment;
 import com.jotangi.greentravel.R;
+import com.jotangi.greentravel.ui.hPayMall.MemberBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +39,7 @@ public class CouponMainActivity extends BaseActivity {
     private PagerAdapter pagerAdapter;
     private UnPageAdapter unpageAdapter;
     private int singleSize;
+    private String product, qrconfirm;
     // 在可使用列表的首頁
     boolean isMainView;
     private Intent intent;
@@ -247,7 +250,6 @@ public class CouponMainActivity extends BaseActivity {
                                 model.day = jsonObject.getString("order_date");
                                 model.id = jsonObject.getString("order_no");
                                 model.pic = jsonObject.getString("product_picture");
-                                model.math = jsonObject.getString("order_qty");
                                 couponList2.add(model);
                             }
                             singleSize = couponList2.size();
@@ -286,9 +288,25 @@ public class CouponMainActivity extends BaseActivity {
                         model.day = jsonObject.getString("order_date");
                         model.id = jsonObject.getString("order_no");
                         model.pic = jsonObject.getString("package_picture");
-                        model.math = jsonObject.getString("order_qty");
                         couponList2.add(model);
+
+                        product = jsonObject.getString("product");
                     }
+//                    JSONArray jsonArray1 = new JSONArray(product);
+//                    for (int j = 0; j < jsonArray1.length(); j++) {
+//                        JSONObject jsonObject1 = (JSONObject) jsonArray1.get(j);
+//                        Log.d(TAG, "jsonObject1: " + jsonObject1);
+//                        qrconfirm = jsonObject1.getString("qrconfirm");
+//                        Log.d(TAG, "qrconfirm: " + qrconfirm);
+//
+//                        if (qrconfirm.equals(null)) {
+//                            runOnUiThread(() -> {
+//                                unpageAdapter = new UnPageAdapter();
+//                                unpageAdapter.setmData(couponList2);
+//                                recyclerView.setAdapter(unpageAdapter);
+//                            });
+//                        }
+//                    }
 
                     runOnUiThread(() -> {
                         unpageAdapter = new UnPageAdapter();

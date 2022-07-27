@@ -155,6 +155,7 @@ class AccountMallRecordFragment : ProjConstraintFragment() {
                             try {
 
                                 binding.rvMall.apply {
+                                    lists.clear()
                                     val jsonArray = JSONArray(jsonString)
                                     for (i in 0 until jsonArray.length()) {
                                         val jsonObject = jsonArray[i] as JSONObject

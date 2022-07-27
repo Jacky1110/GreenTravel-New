@@ -23,7 +23,7 @@ public class MemberBean {
     // 照片名稱
     public static String imgtitle;
     //
-//    public static String cmdImageFile;
+    public static String product;
 
     // 購物車Icon
     public static boolean isShoppingCarPoint;

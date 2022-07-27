@@ -203,13 +203,16 @@ public class MemberFragment extends ProjConstraintFragment {
 //        });
 
         bnQA = rootView.findViewById(R.id.item_qa);
-        bnQA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fragmentListener != null) {
-                    fragmentListener.onAction(FUNC_ACCOUNT_MAIN_TO_QA, null);
-                }
-            }
+        bnQA.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("尚未開放");
+            builder.setMessage("敬請期待");
+            builder.setPositiveButton("確定", (dialog, which) -> {
+            });
+            builder.create().show();
+//            if (fragmentListener != null) {
+//                fragmentListener.onAction(FUNC_ACCOUNT_MAIN_TO_QA, null);
+//            }
         });
 
         bnCS = rootView.findViewById(R.id.item_cs);

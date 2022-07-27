@@ -1,9 +1,13 @@
 package com.jotangi.greentravel.ui.storeManager;
 
+import static com.jotangi.greentravel.ui.account.AccountLoginFragment.KEY_IS_LOGIN;
+import static com.jotangi.greentravel.ui.account.AccountLoginFragment.REG_PREF_NAME;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +16,7 @@ import android.widget.Toast;
 import com.jotangi.greentravel.Api.ApiEnqueue;
 import com.jotangi.greentravel.CameraQRcode;
 import com.jotangi.greentravel.R;
+import com.jotangi.greentravel.ui.login.LoginMain;
 
 public class StoreManager extends AppCompatActivity {
     private String TAG = getClass().getSimpleName() + "(TAG)";
@@ -19,6 +24,7 @@ public class StoreManager extends AppCompatActivity {
     private ApiEnqueue apiEnqueue;
     private Button logoutBT;
     private ImageView qrcodeIV;
+    private SharedPreferences pref;
     private final int REDULT = 12;
 
     @Override
@@ -45,9 +51,19 @@ public class StoreManager extends AppCompatActivity {
     }
 
     private void initHandler() {
-        logoutBT.setOnClickListener(view -> {
-            finish();
-        });
+        pref = getSharedPreferences(REG_PREF_NAME, MODE_PRIVATE);
+        boolean isLogin = pref.getBoolean(KEY_IS_LOGIN, false);
+        if (isLogin) {
+            logoutBT.setOnClickListener(view -> {
+                SharedPreferences pref = getSharedPreferences("loginInfo", MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.clear();
+                editor.commit();
+                Intent intent = new Intent(this, LoginMain.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
         qrcodeIV.setOnClickListener(view -> {
             Intent intent = new Intent(this, CameraQRcode.class);

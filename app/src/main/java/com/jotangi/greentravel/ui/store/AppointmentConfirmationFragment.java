@@ -77,7 +77,6 @@ public class AppointmentConfirmationFragment extends ProjConstraintFragment {
     @Override
     protected void initViews() {
         super.initViews();
-
         apiEnqueue = new ApiEnqueue();
         txtServicePoint = rootView.findViewById(R.id.tv_servicePoint);
         txtServicePoint.setText("預約服務地點: " + DataBeen.storeName);
