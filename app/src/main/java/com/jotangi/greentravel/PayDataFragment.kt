@@ -1,6 +1,8 @@
 package com.jotangi.greentravel
 
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jotangi.greentravel.Api.ApiEnqueue
 import com.jotangi.greentravel.Api.ApiEnqueue.resultListener
 import com.jotangi.greentravel.Api.ApiUrl
-import com.jotangi.greentravel.ui.hPayMall.MemberBean
 import com.jotangi.greentravel.databinding.FragmentPayDataBinding
+import com.jotangi.greentravel.ui.hPayMall.MemberBean
 import com.jotangi.jotangi2022.ApiConUtils
 import org.json.JSONArray
 import org.json.JSONException
@@ -300,19 +302,24 @@ class PayDataFragment : ProjConstraintFragment() {
                                         setMessage(responseMessage)
 //                                            setCanceledOnTouchOutside(false)
                                         setNegativeButton("確認") { dialog, _ ->
-                                            val fra = MallPayFragment.newInstance()
-                                            val data = Bundle()
-                                            data.putString("ResOrder", responseMessage)
-                                            fra.arguments = data
-                                            val transaction: FragmentTransaction =
-                                                requireActivity().getSupportFragmentManager()
-                                                    .beginTransaction();
-                                            transaction.replace(
-                                                R.id.nav_host_fragment_activity_main,
-                                                fra
-                                            )
+                                            val uri: Uri = Uri.parse(ApiUrl.payUrl + responseMessage) //要跳轉的網址
+                                            val intent = Intent(Intent.ACTION_VIEW, uri)
+                                            intent.setData(uri)
+                                            startActivity(intent)
+
+//                                            val fra = MallPayFragment.newInstance()
+//                                            val data = Bundle()
+//                                            data.putString("ResOrder", responseMessage)
+//                                            fra.arguments = data
+//                                            val transaction: FragmentTransaction =
+//                                                requireActivity().getSupportFragmentManager()
+//                                                    .beginTransaction();
+//                                            transaction.replace(
+//                                                R.id.nav_host_fragment_activity_main,
+//                                                fra
+//                                            )
 //                                                    transaction.addToBackStack(DymaticTabFragment.javaClass.getSimpleName())
-                                            transaction.commit()
+//                                            transaction.commit()
                                             dialog.dismiss()
                                         }
                                         setCancelable(false)

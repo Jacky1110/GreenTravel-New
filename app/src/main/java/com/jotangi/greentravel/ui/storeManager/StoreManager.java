@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.jotangi.greentravel.Api.ApiEnqueue;
 import com.jotangi.greentravel.CameraQRcode;
 import com.jotangi.greentravel.R;
-import com.jotangi.greentravel.ui.login.LoginMain;
 
 public class StoreManager extends AppCompatActivity {
     private String TAG = getClass().getSimpleName() + "(TAG)";
@@ -59,7 +58,7 @@ public class StoreManager extends AppCompatActivity {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
                 editor.commit();
-                Intent intent = new Intent(this, LoginMain.class);
+                Intent intent = new Intent(this, AppCompatActivity.class);
                 startActivity(intent);
                 finish();
             });

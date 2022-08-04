@@ -479,7 +479,6 @@ public class MainActivity extends AppCompatActivity implements MyBaseFragment.Fr
             case ProjBaseFragment.FUNC_ACCOUNT_TRADE_TO_RECORD:
                 switchToStoreDetail(funcno, data);
                 break;
-
             case ProjBaseFragment.FUNC_ACCOUNT_TRADE_TO_ORDER:
                 switchToAccountTradeOrderFragment(funcno, data);
                 break;
@@ -525,8 +524,16 @@ public class MainActivity extends AppCompatActivity implements MyBaseFragment.Fr
             case ProjBaseFragment.FUNC_APP_STORETAB:
                 switchAppTOStoreTab(funcno, data);
                 break;
+            case ProjBaseFragment.FUNC_MALL_PAY_TO_MEMBER:
+                switchMallToMember(funcno, data);
+                break;
         }
 
+    }
+
+    private void switchMallToMember(int funcno, Object data) {
+        MemberFragment fragment = MemberFragment.newInstance();
+        switchFragment(fragment, funcno);
     }
 
     private void switchAppTOStoreTab(int funcno, Object data) {

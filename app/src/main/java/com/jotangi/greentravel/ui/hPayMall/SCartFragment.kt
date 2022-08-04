@@ -207,6 +207,7 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
                             } catch (r: Exception) {
                             }
                             var result: Int = 0
+                            var product_stock: Int = 0
                             val jsonArray = JSONArray(jsonString)
                             for (i in 0 until jsonArray.length()) {
                                 val jsonObject = jsonArray[i] as JSONObject
@@ -219,11 +220,12 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
                                         total_amount = jsonObject.getString("total_amount"),
                                         product_picture = jsonObject.getString("product_picture"),
                                         product_no = jsonObject.getString("product_no"),
+                                        product_stock = jsonObject.getString("product_stock"),
 //                                        channel_price = jsonObject.getString("channel_price"),
                                     )
                                 )
 
-
+                                product_stock = jsonObject.getString("product_stock").toInt()
                                 result = jsonObject.getString("total_amount").toInt()
                                 priceList.add(result)
 
@@ -395,7 +397,16 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
             }
 
             override fun onFailure(message: String) {
-
+                requireActivity().runOnUiThread(Runnable {
+                    AlertDialog.Builder(requireContext()).apply {
+                        setTitle("")
+                        setMessage("超過庫存數量")
+                        setNegativeButton("確認") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        setCancelable(true)
+                    }.create().show()
+                })
             }
         })
 

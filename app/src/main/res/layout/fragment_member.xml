@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.account.MemberFragment">
-<!--    style="@style/Fragment_Account"-->
+    <!--    style="@style/Fragment_Account"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_avator"
         android:layout_width="0dp"
         android:layout_height="350dp"
-        android:background="#FAFAFA"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView"
@@ -98,8 +99,8 @@
             app:layout_constraintStart_toStartOf="@+id/tv_User_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_User_name" />
 
-<!--        item_account-->
-<!--            android:id="@+id/edZitBtn"-->
+        <!--        item_account-->
+        <!--            android:id="@+id/edZitBtn"-->
         <Button
             android:id="@+id/item_account"
             android:layout_width="66dp"
@@ -140,8 +141,8 @@
             app:layout_constraintStart_toStartOf="@+id/imgTopShape"
             app:layout_constraintTop_toTopOf="@+id/R_Point">
 
-<!--            item_packer-->
-<!--                android:id="@+id/btnCoupon"-->
+            <!--            item_packer-->
+            <!--                android:id="@+id/btnCoupon"-->
             <LinearLayout
                 android:id="@+id/item_packer"
                 android:layout_width="match_parent"
@@ -153,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/icon_ticket" />
+                    app:srcCompat="@drawable/ic_ticket" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -165,8 +166,8 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-<!--            item_point-->
-<!--                android:id="@+id/btnCouponGet"-->
+            <!--            item_point-->
+            <!--                android:id="@+id/btnCouponGet"-->
             <LinearLayout
                 android:id="@+id/item_point"
                 android:layout_width="match_parent"
@@ -178,7 +179,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/icon_point_logo" />
+                    app:srcCompat="@drawable/ic_point_logo" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -235,6 +236,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/white"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -244,7 +246,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="60dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_list1"
@@ -253,11 +256,16 @@
                 android:alpha="0.8"
                 android:background="@color/white">
 
+
                 <RelativeLayout
                     android:id="@+id/item_record"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintBottom_toTopOf="@+id/item_rule"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
@@ -270,11 +278,24 @@
                         app:srcCompat="@mipmap/icon_next" />
                 </RelativeLayout>
 
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_a0"
+                    app:layout_constraintEnd_toEndOf="@+id/item_record"
+                    app:layout_constraintStart_toStartOf="@+id/item_record"
+                    app:layout_constraintTop_toBottomOf="@+id/item_record" />
+
                 <RelativeLayout
                     android:id="@+id/item_qa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintBottom_toTopOf="@id/item_cs"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/item_record">
 
                     <TextView
@@ -292,11 +313,24 @@
                         android:background="@color/white" />
                 </RelativeLayout>
 
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_a0"
+                    app:layout_constraintEnd_toEndOf="@+id/item_qa"
+                    app:layout_constraintStart_toStartOf="@+id/item_qa"
+                    app:layout_constraintTop_toBottomOf="@+id/item_qa" />
+
                 <RelativeLayout
                     android:id="@+id/item_cs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintBottom_toTopOf="@id/item_rule"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/item_qa">
 
                     <TextView
@@ -307,82 +341,90 @@
                         style="@style/AccountMainListItemImageView"
                         android:src="@mipmap/icon_next" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@color/white" />
                 </RelativeLayout>
-<!--                <RelativeLayout-->
-<!--                    android:id="@+id/item_account"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintBottom_toTopOf="@id/item_packer"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/item_record">-->
 
-<!--                    <TextView-->
-<!--                        style="@style/AccountMainListItemTextView"-->
-<!--                        android:text="@string/account_listitem_data" />-->
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_a0"
+                    app:layout_constraintEnd_toEndOf="@+id/item_cs"
+                    app:layout_constraintStart_toStartOf="@+id/item_cs"
+                    app:layout_constraintTop_toBottomOf="@+id/item_cs" />
+                <!--                <RelativeLayout-->
+                <!--                    android:id="@+id/item_account"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    app:layout_constraintBottom_toTopOf="@id/item_packer"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/item_record">-->
 
-<!--                    <ImageView-->
-<!--                        style="@style/AccountMainListItemImageView"-->
-<!--                        app:srcCompat="@mipmap/icon_next" />-->
+                <!--                    <TextView-->
+                <!--                        style="@style/AccountMainListItemTextView"-->
+                <!--                        android:text="@string/account_listitem_data" />-->
 
-<!--                    <View-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="2dp"-->
-<!--                        android:background="@color/white" />-->
+                <!--                    <ImageView-->
+                <!--                        style="@style/AccountMainListItemImageView"-->
+                <!--                        app:srcCompat="@mipmap/icon_next" />-->
 
-<!--                </RelativeLayout>-->
+                <!--                    <View-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="2dp"-->
+                <!--                        android:background="@color/white" />-->
 
-<!--                <RelativeLayout-->
-<!--                    android:id="@+id/item_packer"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    app:layout_constraintBottom_toTopOf="@id/item_point"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/item_account">-->
+                <!--                </RelativeLayout>-->
 
-<!--                    <TextView-->
-<!--                        style="@style/AccountMainListItemTextView"-->
-<!--                        android:text="@string/account_listitem_packer" />-->
+                <!--                <RelativeLayout-->
+                <!--                    android:id="@+id/item_packer"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    app:layout_constraintBottom_toTopOf="@id/item_point"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/item_account">-->
 
-<!--                    <ImageView-->
-<!--                        style="@style/AccountMainListItemImageView"-->
-<!--                        android:src="@mipmap/icon_next" />-->
+                <!--                    <TextView-->
+                <!--                        style="@style/AccountMainListItemTextView"-->
+                <!--                        android:text="@string/account_listitem_packer" />-->
 
-<!--                    <View-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="2dp"-->
-<!--                        android:layout_alignParentBottom="true"-->
-<!--                        android:background="@color/white" />-->
-<!--                </RelativeLayout>-->
+                <!--                    <ImageView-->
+                <!--                        style="@style/AccountMainListItemImageView"-->
+                <!--                        android:src="@mipmap/icon_next" />-->
 
-<!--                <RelativeLayout-->
-<!--                    android:id="@+id/item_point"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintBottom_toTopOf="@id/item_rule"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/item_point">-->
+                <!--                    <View-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="2dp"-->
+                <!--                        android:layout_alignParentBottom="true"-->
+                <!--                        android:background="@color/white" />-->
+                <!--                </RelativeLayout>-->
 
-<!--                    <TextView-->
-<!--                        style="@style/AccountMainListItemTextView"-->
-<!--                        android:text="@string/account_listitem_point" />-->
+                <!--                <RelativeLayout-->
+                <!--                    android:id="@+id/item_point"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    app:layout_constraintBottom_toTopOf="@id/item_rule"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/item_point">-->
 
-<!--                    <ImageView-->
-<!--                        style="@style/AccountMainListItemImageView"-->
-<!--                        android:src="@mipmap/icon_next" />-->
+                <!--                    <TextView-->
+                <!--                        style="@style/AccountMainListItemTextView"-->
+                <!--                        android:text="@string/account_listitem_point" />-->
 
-<!--                    <View-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="2dp"-->
-<!--                        android:layout_alignParentBottom="true"-->
-<!--                        android:background="@color/white" />-->
-<!--                </RelativeLayout>-->
+                <!--                    <ImageView-->
+                <!--                        style="@style/AccountMainListItemImageView"-->
+                <!--                        android:src="@mipmap/icon_next" />-->
+
+                <!--                    <View-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="2dp"-->
+                <!--                        android:layout_alignParentBottom="true"-->
+                <!--                        android:background="@color/white" />-->
+                <!--                </RelativeLayout>-->
 
                 <RelativeLayout
                     android:id="@+id/item_rule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/item_cs">
 
                     <TextView
@@ -401,23 +443,22 @@
                 </RelativeLayout>
 
 
+                <!--                <RelativeLayout-->
+                <!--                    android:id="@+id/bn_logout"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/item_qa">-->
 
-<!--                <RelativeLayout-->
-<!--                    android:id="@+id/bn_logout"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/item_qa">-->
+                <!--                    <TextView-->
+                <!--                        style="@style/AccountMainListItemTextView"-->
+                <!--                        android:text="@string/logout"-->
+                <!--                        android:textColor="#ED3434" />-->
 
-<!--                    <TextView-->
-<!--                        style="@style/AccountMainListItemTextView"-->
-<!--                        android:text="@string/logout"-->
-<!--                        android:textColor="#ED3434" />-->
-
-<!--                    <ImageView-->
-<!--                        style="@style/AccountMainListItemImageView"-->
-<!--                        android:src="@mipmap/icon_next" />-->
-<!--                </RelativeLayout>-->
+                <!--                    <ImageView-->
+                <!--                        style="@style/AccountMainListItemImageView"-->
+                <!--                        android:src="@mipmap/icon_next" />-->
+                <!--                </RelativeLayout>-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

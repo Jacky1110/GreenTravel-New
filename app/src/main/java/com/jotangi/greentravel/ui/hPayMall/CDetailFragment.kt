@@ -36,6 +36,7 @@ class CDetailFragment : ProjConstraintFragment() {
     private var cdInt: Int = 0
     var isDiscount = false
     var channel_Price: String? = null
+    var product_stock: String? = null
 
     companion object {
         const val TAG = "CDetailFragment"
@@ -78,35 +79,44 @@ class CDetailFragment : ProjConstraintFragment() {
             var cou = Integer.parseInt(cdCount.text.toString())
             //counting product amount
             cdPlus.setOnClickListener {
+                if (cou < Integer.parseInt(product_stock)) {
                 /*加商品數目*/
                 cou = cou + 1
-                requireActivity().runOnUiThread {
-                    cdCount.text = cou.toString()
+                    requireActivity().runOnUiThread {
+                        cdCount.text = cou.toString()
+                    }
+                }else{
+                    showDialog(
+                        "", "超過庫存數量 ",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog!!.dismiss()
+                        })
+
                 }
             }
             cdReduce.setOnClickListener {
                 /*減商品數目*/
                 when {
-                    cou > 0 -> {
+                    cou > 1 -> {
                         cou = cou - 1
                         requireActivity().runOnUiThread {
                             cdCount.text = cou.toString()
                         }
                     }
                     else -> {
-                        requireActivity().runOnUiThread(Runnable {
-                            CustomDaialog.showNormal(
-                                requireActivity(),
-                                "",
-                                "商品數目為0，請重新確認",
-                                "謝謝",
-                                object : CustomDaialog.OnBtnClickListener {
-                                    override fun onCheck() {}
-                                    override fun onCancel() {
-                                        CustomDaialog.closeDialog()
-                                    }
-                                })
-                        })
+//                        requireActivity().runOnUiThread(Runnable {
+//                            CustomDaialog.showNormal(
+//                                requireActivity(),
+//                                "",
+//                                "商品數目不得小於1，請重新確認",
+//                                "謝謝",
+//                                object : CustomDaialog.OnBtnClickListener {
+//                                    override fun onCheck() {}
+//                                    override fun onCancel() {
+//                                        CustomDaialog.closeDialog()
+//                                    }
+//                                })
+//                        })
                     }
                 }
 
@@ -201,7 +211,7 @@ class CDetailFragment : ProjConstraintFragment() {
                                             })
                                     } else {
                                         showDialog(
-                                            "Error ", responseMessage,
+                                            " ", responseMessage,
                                             DialogInterface.OnClickListener { dialog, which ->
                                                 dialog!!.dismiss()
                                             })
@@ -212,7 +222,7 @@ class CDetailFragment : ProjConstraintFragment() {
                                     if (!code.equals("0x0200")) {
 
                                         showDialog(
-                                            "Error ", responseMessage,
+                                            " ", responseMessage,
                                             { dialog, which ->
                                                 dialog!!.dismiss()
                                             })
@@ -282,6 +292,7 @@ class CDetailFragment : ProjConstraintFragment() {
                             var product_description = jsonObject.getString("product_description")
                             var product_picture = jsonObject.getString("product_picture")
                             var product_name = jsonObject.getString("product_name")
+                            product_stock = jsonObject.getString("product_stock")
                             binding.apply {
                                 val ProUrl = ApiUrl.API_URL
                                 cdDes.setText(product_description)

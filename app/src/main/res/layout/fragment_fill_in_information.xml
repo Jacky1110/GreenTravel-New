@@ -59,7 +59,7 @@
                 android:hint="  請輸入您的姓名"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                android:text="aaa"
+                android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="#7e7e7e"
                 android:textCursorDrawable="@null" />
@@ -96,7 +96,7 @@
                 android:layout_marginEnd="15dp"
                 android:hint="  請輸入您的手機號碼"
                 android:inputType="number"
-                android:text="09"
+                android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="#7e7e7e"
                 android:textCursorDrawable="@null" />
@@ -136,7 +136,7 @@
                 android:hint="  請輸入您的車牌號碼"
                 android:imeOptions="actionDone"
                 android:inputType="textVisiblePassword"
-                android:text="aaa"
+                android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="#7e7e7e"
                 android:textCursorDrawable="@null" />
@@ -178,7 +178,7 @@
                 android:hint="  請輸入您的車款與車型(例:SYM Jet)"
                 android:imeOptions="actionDone"
                 android:inputType="textVisiblePassword"
-                android:text="aaa"
+                android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="#7e7e7e"
                 android:textCursorDrawable="@null" />
@@ -277,7 +277,7 @@
                 android:hint="  請說明車況，以利維修作業進行"
                 android:imeOptions="actionDone"
                 android:inputType="textPersonName"
-                android:text="aaa"
+                android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="#7e7e7e"
                 android:textCursorDrawable="@null" />

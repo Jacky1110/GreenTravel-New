@@ -42,6 +42,7 @@ public class ProjBaseFragment extends MyBaseFragment {
     public final static int FUNC_HOME_TO_SCAN = 101;
     public final static int FUNC_SCAN_TO_WEBPAY = 102;
     public final static int FUNC_MallDetal = 201;
+    public final static int FUNC_MALL_PAY_TO_MEMBER = 202;
     public final static int FUNC_ACCOUNT_MAIN_TO_MYPAGE = 334;
     public final static int FUNC_ACCOUNT_MAIN_TO_NOUSEPAGE = 335;
     protected Integer activityTitleRid = R.string.title_home;

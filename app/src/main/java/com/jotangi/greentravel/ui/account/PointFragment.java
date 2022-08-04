@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -30,7 +31,8 @@ public class PointFragment extends ProjConstraintFragment {
 
     private String TAG = PointFragment.class.getSimpleName() + "(TAG)";
 
-    private TextView txtPoint;
+    private TextView txtPoint, txtScNd0;
+    private ImageView ImgScNodata;
     ApiEnqueue apiEnqueue;
     View view;
     ArrayList<PointModel> data = new ArrayList<>();
@@ -66,6 +68,8 @@ public class PointFragment extends ProjConstraintFragment {
     private void initView(View v) {
         apiEnqueue = new ApiEnqueue();
         txtPoint = v.findViewById(R.id.tv_RPoint);
+        txtScNd0 = v.findViewById(R.id.scNd0);
+        ImgScNodata = v.findViewById(R.id.scNodata);
         rv_point = v.findViewById(R.id.rec_point);
         rv_point.setLayoutManager(new LinearLayoutManager(requireActivity()));
         rv_point.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
@@ -104,6 +108,11 @@ public class PointFragment extends ProjConstraintFragment {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            getActivity().runOnUiThread(() -> {
+                                rv_point.setVisibility(View.GONE);
+                                txtScNd0.setVisibility(View.VISIBLE);
+                                ImgScNodata.setVisibility(View.VISIBLE);
+                            });
                         }
                     }
                 });

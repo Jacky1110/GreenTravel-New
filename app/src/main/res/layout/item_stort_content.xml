@@ -7,23 +7,23 @@
 
     <ImageView
         android:id="@+id/pdIV"
-        android:layout_width="130dp"
+        android:layout_width="0dp"
         android:layout_height="130dp"
         android:layout_marginStart="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_hotel" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/storeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-light"
-        android:layout_marginStart="12dp"
         android:text="好大大大大大大"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/pdIV"
         app:layout_constraintTop_toBottomOf="@+id/pdIV" />
 
     <TextView

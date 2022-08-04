@@ -10,6 +10,12 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -22,6 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenTravel">
+
         <activity
             android:name=".PagerStore.NewPageMainActivity"
             android:exported="false" />
@@ -35,18 +42,34 @@
             android:name=".AccountRuleActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.main.MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".CameraQRcode"
             android:exported="false" />
         <activity
-            android:name=".ui.login.LoginMain"
-            android:exported="true">
+            android:name=".ui.main.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Support rilinkshop://payment?url=... like iPhone app -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="payment"
+                    android:scheme="rilinkshop" />
             </intent-filter>
         </activity>
         <activity

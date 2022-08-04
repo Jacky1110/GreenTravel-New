@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -38,8 +39,8 @@ import androidx.core.app.ActivityCompat;
 import com.jotangi.greentravel.Api.ApiEnqueue;
 import com.jotangi.greentravel.AppUtility;
 import com.jotangi.greentravel.Api.ApiUrl;
+import com.jotangi.greentravel.LoginMainActivity;
 import com.jotangi.greentravel.ui.hPayMall.MemberBean;
-import com.jotangi.greentravel.ui.login.LoginMain;
 import com.jotangi.greentravel.PagerStore.CouponMainActivity;
 import com.jotangi.greentravel.ProjConstraintFragment;
 import com.jotangi.greentravel.R;
@@ -127,7 +128,7 @@ public class MemberFragment extends ProjConstraintFragment {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
                 editor.commit();
-                Intent intent = new Intent(requireActivity(), LoginMain.class);
+                Intent intent = new Intent(requireActivity(), LoginMainActivity.class);
                 startActivity(intent);
                 requireActivity().finish();
 

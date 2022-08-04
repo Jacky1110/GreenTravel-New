@@ -1,5 +1,7 @@
 package com.jotangi.greentravel.ui.account.accountOrder
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -196,20 +198,25 @@ class AccountMallRecordFragment : ProjConstraintFragment() {
                                     }
                                     ListAdapter.payClick = {
                                         orderNo = it.order_no.toString()
-                                        val fra = MallPayFragment.newInstance()
-                                        val data = Bundle()
-                                        data.putString("ResOrder", it.order_no.toString())
-                                        /*ResOrder->導向付款頁面皆需要付款編號*/
-                                        fra.arguments = data
-                                        val transaction: FragmentTransaction =
-                                            requireActivity().getSupportFragmentManager()
-                                                .beginTransaction();
-                                        transaction.replace(
-                                            R.id.nav_host_fragment_activity_main,
-                                            fra
-                                        )
-                                        transaction.addToBackStack(AccountMallRecordFragment.javaClass.simpleName)
-                                        transaction.commit()
+                                        val uri: Uri = Uri.parse(ApiUrl.payUrl + it.order_no.toString()) //要跳轉的網址
+                                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                                        intent.setData(uri)
+                                        startActivity(intent)
+
+//                                        val fra = MallPayFragment.newInstance()
+//                                        val data = Bundle()
+//                                        data.putString("ResOrder", it.order_no.toString())
+//                                        /*ResOrder->導向付款頁面皆需要付款編號*/
+//                                        fra.arguments = data
+//                                        val transaction: FragmentTransaction =
+//                                            requireActivity().getSupportFragmentManager()
+//                                                .beginTransaction();
+//                                        transaction.replace(
+//                                            R.id.nav_host_fragment_activity_main,
+//                                            fra
+//                                        )
+//                                        transaction.addToBackStack(AccountMallRecordFragment.javaClass.simpleName)
+//                                        transaction.commit()
                                     }
 
 

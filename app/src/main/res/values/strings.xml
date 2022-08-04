@@ -1,7 +1,7 @@
 <resources>
-<!--    <string name="app_name">RilinkShop</string>-->
+    <string name="app_name">RilinkShop</string>
 
-    <string name="proj_scheme">hpay</string>
+    <string name="proj_scheme">rilinkshop</string>
     <string name="proj_scheme_host">payment</string>
     <string name="proj_scheme_home_main">home</string>
     <string name="proj_scheme_account_trade">trade</string>

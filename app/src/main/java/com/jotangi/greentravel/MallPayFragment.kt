@@ -5,9 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.*
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.jotangi.greentravel.Api.ApiUrl
 import com.jotangi.greentravel.databinding.FragmentMallPaymoneyBinding
+import com.jotangi.greentravel.ui.main.MainActivity
+
+
+
 
 /**
  *
@@ -42,7 +49,7 @@ class MallPayFragment : ProjConstraintFragment() {
 
 
             binding.payMoney.loadUrl(ApiUrl.payUrl + ResOrder)
-            Log.d("拿你的錢2 "," "+ ApiUrl.payUrl + ResOrder)
+            Log.d("TAG "," "+ ApiUrl.payUrl + ResOrder)
 
         }
         val root: View = binding.root
@@ -86,9 +93,29 @@ class MallPayFragment : ProjConstraintFragment() {
         webView.getSettings().setPluginState(WebSettings.PluginState.ON)
         webView.setWebChromeClient(object : WebChromeClient() {
 
-
         })
+        webView.setWebViewClient(object : WebViewClient() {
+            // 在點擊請求的是鏈接是纔會調用，重寫此方法返回true表明點擊網頁裏面的鏈接還是在當前的webview裏跳轉，不跳到瀏覽器那邊。這個函數我們可以做很多操作，比如我們讀取到某些特殊的URL，於是就可以不打開地址，取消這個操作，進行預先定義的其他操作，這對一個程序是非常必要的。
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
+                val data: Bundle? = arguments
+                val ResOrder = data?.getString("ResOrder").toString()
+                val url = ApiUrl.payUrl + ResOrder
+                // 判斷url鏈接中是否含有某個字段，如果有就執行指定的跳轉（不執行跳轉url鏈接），如果沒有就加載url鏈接
+                return if (url.contains("")) {
+                    fragmentListener.onAction(FUNC_MALL_PAY_TO_MEMBER, null)
+                    true
+                } else {
+                    false
+                }
+            }
+        })
+
+//        if (fragmentListener != null) {
+//            fragmentListener.onAction(FUNC_MALL_PAY_TO_MEMBER, null)
+//        }
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
