@@ -12,8 +12,7 @@
         android:layout_marginTop="8dp"
         android:scaleType="centerInside"
         app:layout_constraintStart_toStartOf="@id/view"
-        app:layout_constraintTop_toTopOf="@id/view"
-        app:srcCompat="@drawable/ic_hotelpackage" />
+        app:layout_constraintTop_toTopOf="@id/view" />
 
     <View
         android:id="@+id/view"
@@ -39,8 +38,8 @@
 
     <ImageButton
         android:id="@+id/cdReduce"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_marginStart="-4dp"
         android:background="@drawable/shape_round_orange_yellow"
         android:padding="4dp"
@@ -53,8 +52,8 @@
 
     <ImageButton
         android:id="@+id/cdPlus"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_marginEnd="-4dp"
         android:background="@drawable/shape_round_orange_yellow"
         android:padding="4dp"

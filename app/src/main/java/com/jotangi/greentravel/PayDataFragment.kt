@@ -302,24 +302,24 @@ class PayDataFragment : ProjConstraintFragment() {
                                         setMessage(responseMessage)
 //                                            setCanceledOnTouchOutside(false)
                                         setNegativeButton("確認") { dialog, _ ->
-                                            val uri: Uri = Uri.parse(ApiUrl.payUrl + responseMessage) //要跳轉的網址
-                                            val intent = Intent(Intent.ACTION_VIEW, uri)
-                                            intent.setData(uri)
-                                            startActivity(intent)
+//                                            val uri: Uri = Uri.parse(ApiUrl.payUrl + responseMessage) //要跳轉的網址
+//                                            val intent = Intent(Intent.ACTION_VIEW, uri)
+//                                            intent.setData(uri)
+//                                            startActivity(intent)
 
-//                                            val fra = MallPayFragment.newInstance()
-//                                            val data = Bundle()
-//                                            data.putString("ResOrder", responseMessage)
-//                                            fra.arguments = data
-//                                            val transaction: FragmentTransaction =
-//                                                requireActivity().getSupportFragmentManager()
-//                                                    .beginTransaction();
-//                                            transaction.replace(
-//                                                R.id.nav_host_fragment_activity_main,
-//                                                fra
-//                                            )
+                                            val fra = MallPayFragment.newInstance()
+                                            val data = Bundle()
+                                            data.putString("ResOrder", responseMessage)
+                                            fra.arguments = data
+                                            val transaction: FragmentTransaction =
+                                                requireActivity().getSupportFragmentManager()
+                                                    .beginTransaction();
+                                            transaction.replace(
+                                                R.id.nav_host_fragment_activity_main,
+                                                fra
+                                            )
 //                                                    transaction.addToBackStack(DymaticTabFragment.javaClass.getSimpleName())
-//                                            transaction.commit()
+                                            transaction.commit()
                                             dialog.dismiss()
                                         }
                                         setCancelable(false)

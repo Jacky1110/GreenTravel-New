@@ -84,6 +84,7 @@ class UnCouponModel {
     String name = "";
     String day = "";
     String id = "";
+    String product = "";
 }
 
 

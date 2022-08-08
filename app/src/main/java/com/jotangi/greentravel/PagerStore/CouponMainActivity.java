@@ -279,26 +279,25 @@ public class CouponMainActivity extends BaseActivity {
         apiEnqueue.QRConfirmList(ispackage, new ApiEnqueue.resultListener() {
             @Override
             public void onSuccess(String message) {
-                try {
-                    JSONArray jsonArray = new JSONArray(message);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        UnCouponModel model = new UnCouponModel();
-                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                        model.name = jsonObject.getString("package_name");
-                        model.day = jsonObject.getString("order_date");
-                        model.id = jsonObject.getString("order_no");
-                        model.pic = jsonObject.getString("package_picture");
-                        couponList2.add(model);
+                runOnUiThread(() -> {
+                    try {
+                        JSONArray jsonArray = new JSONArray(message);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            UnCouponModel model = new UnCouponModel();
+                            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                            model.name = jsonObject.getString("package_name");
+                            model.day = jsonObject.getString("order_date");
+                            model.id = jsonObject.getString("order_no");
+                            model.pic = jsonObject.getString("package_picture");
+                            model.product = jsonObject.getString("product");
+                            couponList2.add(model);
 
-                        product = jsonObject.getString("product");
-                    }
-//                    JSONArray jsonArray1 = new JSONArray(product);
-//                    for (int j = 0; j < jsonArray1.length(); j++) {
-//                        JSONObject jsonObject1 = (JSONObject) jsonArray1.get(j);
-//                        Log.d(TAG, "jsonObject1: " + jsonObject1);
-//                        qrconfirm = jsonObject1.getString("qrconfirm");
-//                        Log.d(TAG, "qrconfirm: " + qrconfirm);
-//
+                            Log.d(TAG, "model.product: " + model.product);
+
+                        }
+
+
+
 //                        if (qrconfirm.equals(null)) {
 //                            runOnUiThread(() -> {
 //                                unpageAdapter = new UnPageAdapter();
@@ -308,29 +307,30 @@ public class CouponMainActivity extends BaseActivity {
 //                        }
 //                    }
 
-                    runOnUiThread(() -> {
-                        unpageAdapter = new UnPageAdapter();
-                        unpageAdapter.setmData(couponList2);
-                        recyclerView.setAdapter(unpageAdapter);
-                    });
+                        runOnUiThread(() -> {
+                            unpageAdapter = new UnPageAdapter();
+                            unpageAdapter.setmData(couponList2);
+                            recyclerView.setAdapter(unpageAdapter);
+                        });
 
-                    swipe_refresh.setOnRefreshListener(() -> {
-                        //延迟2秒设置不刷新,模拟耗时操作，需要放在子线程中
-                        new Handler().postDelayed(() -> {
-                            runOnUiThread(() -> {
-                                unpageAdapter.setmData(couponList2);
-                                swipe_refresh.setRefreshing(false);//设置是否刷新
-                            });
+                        swipe_refresh.setOnRefreshListener(() -> {
+                            //延迟2秒设置不刷新,模拟耗时操作，需要放在子线程中
+                            new Handler().postDelayed(() -> {
+                                runOnUiThread(() -> {
+                                    unpageAdapter.setmData(couponList2);
+                                    swipe_refresh.setRefreshing(false);//设置是否刷新
+                                });
 
-                        }, 1000);
-                    });
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                            }, 1000);
+                        });
 
 
-                }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+
+
+                    }
+                });
             }
 
             @Override
@@ -338,6 +338,16 @@ public class CouponMainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void handleqr(String product) throws JSONException {
+        JSONArray jsonArray1 = new JSONArray(product);
+        for (int j = 0; j < jsonArray1.length(); j++) {
+            JSONObject jsonObject1 = (JSONObject) jsonArray1.get(j);
+            Log.d(TAG, "jsonObject1: " + jsonObject1);
+            qrconfirm = jsonObject1.getString("qrconfirm");
+            Log.d(TAG, "qrconfirm: " + qrconfirm);
+        }
     }
 
     private PagerAdapter.ItemClickListener useClick = new PagerAdapter.ItemClickListener() {

@@ -21,4 +21,6 @@ data class Product_list(
     var product_price:String? = null,
     var product_picture:String? = null,
     var product_description:String? = null,
+    var product_stock:String? = null,
+
     ): Parcelable

@@ -30,6 +30,7 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
     var no: String = ""
     var count: String = ""
     var isDiscount = false
+    var product_stock: Int = 0
 
     private var apiEnqueue: ApiEnqueue? = null
 
@@ -113,6 +114,7 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
         return root
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -126,9 +128,20 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        binding.apply {
+            cartAdapter = CartAdapter(lists, this@SCartFragment)
+            rvScart.layoutManager = LinearLayoutManager(context)
+            rvScart.adapter = cartAdapter
+        }
     }
 
     private fun RemoveShopping_Cart(proNo: String) {
+        binding.progressBar.visibility = View.VISIBLE
         ApiConUtils.del_shoppingcart(
             ApiUrl.API_URL,
             ApiUrl.del_shoppingcart,
@@ -139,6 +152,7 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
                 @Throws(JSONException::class)
                 override fun onSuccess(jsonString: String) {
                     requireActivity().runOnUiThread(Runnable {
+                        binding.progressBar.visibility = View.GONE
                         Log.e("修改購物車內商品數量 : ", "  " + jsonString)
                         try {
                             val jsonObject = JSONObject(jsonString)
@@ -178,6 +192,8 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
     private fun ResetRecy() {
         Log.e("購物車內參數 : ", "  " + MemberBean.member_id + " " + MemberBean.member_pwd)
 
+        binding.progressBar.visibility = View.VISIBLE
+
         ApiConUtils.shoppingcart_list(
             ApiUrl.API_URL,
             ApiUrl.shoppingcart_list,
@@ -187,6 +203,7 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
                 @Throws(JSONException::class)
                 override fun onSuccess(jsonString: String) {
                     requireActivity().runOnUiThread(Runnable {
+                        binding.progressBar.visibility = View.GONE
                         Log.e("購物車內商品列表 : ", "  " + jsonString)
                         try {
                             lists.clear()
@@ -207,7 +224,6 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
                             } catch (r: Exception) {
                             }
                             var result: Int = 0
-                            var product_stock: Int = 0
                             val jsonArray = JSONArray(jsonString)
                             for (i in 0 until jsonArray.length()) {
                                 val jsonObject = jsonArray[i] as JSONObject
@@ -225,7 +241,7 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
                                     )
                                 )
 
-                                product_stock = jsonObject.getString("product_stock").toInt()
+
                                 result = jsonObject.getString("total_amount").toInt()
                                 priceList.add(result)
 
@@ -243,9 +259,10 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
 
                             requireActivity().runOnUiThread {
                                 binding.apply {
-                                    cartAdapter = CartAdapter(lists, this@SCartFragment)
-                                    rvScart.layoutManager = LinearLayoutManager(context)
-                                    rvScart.adapter = cartAdapter
+                                    cartAdapter.updateDataSource(lists)
+//                                    cartAdapter = CartAdapter(lists, this@SCartFragment)
+//                                    rvScart.layoutManager = LinearLayoutManager(context)
+//                                    rvScart.adapter = cartAdapter
                                     Pnoshow()
                                 }
                             }
@@ -388,16 +405,21 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
     override fun onItemClick(data: Cart) {
         var proNo = data.product_no
         var Count = data.Count
+        binding.progressBar.visibility = View.VISIBLE
         apiEnqueue!!.editShoppingcart(proNo, Count, object : resultListener {
             override fun onSuccess(message: String) {
+                Log.d(TAG, "product_stock:  ${lists[0].product_stock}")
                 requireActivity().runOnUiThread(Runnable {
+                    binding.progressBar.visibility = View.GONE
                     ResetRecy()
                 })
+
 
             }
 
             override fun onFailure(message: String) {
                 requireActivity().runOnUiThread(Runnable {
+                    binding.progressBar.visibility = View.GONE
                     AlertDialog.Builder(requireContext()).apply {
                         setTitle("")
                         setMessage("超過庫存數量")
@@ -412,6 +434,7 @@ class SCartFragment : ProjConstraintFragment(), CartAdapter.ItemClickListener {
 
 
     }
+
 
 }
 

@@ -8,12 +8,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import com.jotangi.greentravel.ui.login.SignupActivity2;
+import com.jotangi.greentravel.ui.main.MainActivity;
+
+import java.util.List;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     public static Uri uri;
     public static String storeID;
     public static String type;
+    public static Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,21 +32,15 @@ public class WelcomeActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorDarkToast));
         handler.postDelayed(runnable, 1250);
 
-        uri = getIntent().getData();
-        Log.d("豪豪", "onCreate: " + uri);
+//        String url = "rilinkshop://payment?url=";
+//        Intent in = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//        in.setPackage("com.jotangi.greentravel");
+//        startActivity(in);
 
-//        if (uri != null)
-//        {
-//
-//            String str = uri.getHost();
-//            String[] tokens = str.split("=|&");
-//            storeID = tokens[1];
-//            type = tokens[3];
-//            Log.d("豪豪", "onCreate: " + storeID + type);
-//        }
-        Intent intent = getIntent();
-        String date = intent.getDataString();
-        Log.d("TAG", "date: " + date);
+//        String url = "rilinkshop://payment?url=";
+//        WebView view = new WebView(this);
+//        view.loadUrl(url);
+
     }
 
     Handler handler = new Handler();

@@ -244,6 +244,7 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
                     args.putString("product_picture", it.product_picture.toString())
                     args.putString("product_price", it.product_price.toString())
                     args.putString("product_description", it.product_description.toString())
+                    args.putString("product_stock",it.product_stock.toString())
                     fragment.setArguments(args)
                     val transaction: FragmentTransaction =
                         requireActivity().getSupportFragmentManager().beginTransaction();
@@ -367,7 +368,8 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
                                 product_price = jsonObject.getString("product_price"),
                                 product_picture = jsonObject.getString("product_picture"),
                                 product_no = jsonObject.getString("package_no"),
-                                product_description = jsonObject.getString("product_description")
+                                product_description = jsonObject.getString("product_description"),
+                                product_stock = jsonObject.getString("product_stock")
                             )
                         )
                     }

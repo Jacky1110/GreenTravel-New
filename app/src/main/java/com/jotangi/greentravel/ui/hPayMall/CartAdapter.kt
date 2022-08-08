@@ -26,7 +26,7 @@ import com.squareup.picasso.Picasso
  * @version hpay_34版
  */
 
-class CartAdapter(val mData: List<Cart>, val listener: ItemClickListener) :
+class CartAdapter(var mData: List<Cart>, val listener: ItemClickListener) :
     RecyclerView.Adapter<CartAdapter.myViewHolder>() {
 
     var mContext: Context? = null
@@ -61,27 +61,25 @@ class CartAdapter(val mData: List<Cart>, val listener: ItemClickListener) :
             product_stock = data.product_stock.toString()
             Picasso.get().load(ApiUrl.API_URL + "ticketec/" + product_picture).into(image)
             var cou = Integer.parseInt(cdCount.text.toString())
+
             Plus.setOnClickListener {
-                if (cou < Integer.parseInt(product_stock)) {
-                    /*加商品數目*/
-                    cou = cou + 1
-                    cdCount.text = cou.toString()
-                    count.text = cdCount.text
-                    data.Count = cou.toString()
-                    listener.onItemClick(data)
+                /*加商品數目*/
+                cou = cou + 1
+//                    cdCount.text = cou.toString()
+//                    count.text = cdCount.text
+                data.Count = cou.toString()
+                listener.onItemClick(data)
 
-                } else {
-                    listener.onItemClick(data)
-
-                }
             }
+
+
 
             Reduce.setOnClickListener {
                 /*減商品數目*/
                 when {
                     cou > 1 -> {
                         cou = cou - 1
-                        cdCount.text = cou.toString()
+//                        cdCount.text = cou.toString()
                         data.Count = cou.toString()
                         listener.onItemClick(data)
                     }
@@ -95,6 +93,11 @@ class CartAdapter(val mData: List<Cart>, val listener: ItemClickListener) :
 
     override fun getItemCount(): Int {
         return mData.size
+    }
+
+    fun updateDataSource(newData: List<Cart>) {
+        this.mData = newData
+        this.notifyDataSetChanged()
     }
 
     inner class myViewHolder(v: View) : RecyclerView.ViewHolder(v) {

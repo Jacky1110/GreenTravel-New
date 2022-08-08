@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -42,6 +43,7 @@ public class HomeMainFragment extends ProjConstraintFragment {
     private ArrayList<BannerListBean> bannerListBeans;
     private BannerListBean bannerData;
     private HomePageAdapter adapter;
+    private ProgressBar progressBar;
     private CategoryAdapter categoryAdapter;
     private ArrayList<String> categoryList = new ArrayList(Arrays.asList(
             "新車",
@@ -60,7 +62,8 @@ public class HomeMainFragment extends ProjConstraintFragment {
                         data.get(position).name,
                         data.get(position).pric,
                         data.get(position).pic,
-                        data.get(position).description));
+                        data.get(position).description,
+                        data.get(position).product_stock));
         transaction.addToBackStack(null);
         transaction.commit();
     };
@@ -96,6 +99,8 @@ public class HomeMainFragment extends ProjConstraintFragment {
         super.initViews();
 
         mXBanner = rootView.findViewById(R.id.banner);
+        progressBar = rootView.findViewById(R.id.progressBar);
+
 
         recyView = rootView.findViewById(R.id.home_RecyView);
         recyView.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
@@ -116,13 +121,14 @@ public class HomeMainFragment extends ProjConstraintFragment {
 
     // 17.商店列表
     private void apiStoreList() {
-
+        progressBar.setVisibility(View.VISIBLE);
         apiEnqueue.storeList(new ApiEnqueue.resultListener() {
             @Override
             public void onSuccess(String message) {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar.setVisibility(View.GONE);
 
 //                ArrayList<String> storePictureList = new ArrayList<>();
                         bannerListBeans = new ArrayList<BannerListBean>();
@@ -222,37 +228,45 @@ public class HomeMainFragment extends ProjConstraintFragment {
     // 6.商城套票列表
     private void apiTicketList() {
 
+        progressBar.setVisibility(View.VISIBLE);
+
         apiEnqueue.package_list(new ApiEnqueue.resultListener() {
             @Override
             public void onSuccess(String message) {
-                data = new ArrayList();
+                requireActivity().runOnUiThread(() -> {
 
-                try {
-                    JSONArray jsonArray = new JSONArray(message);
-                    Log.d(TAG, "jsonArray: " + jsonArray);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        HomePageModel model = new HomePageModel();
-                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                        model.name = jsonObject.getString("product_name");
-                        model.pric = jsonObject.getString("product_price");
-                        model.id = jsonObject.getString("package_no");
-                        model.pic = jsonObject.getString("product_picture");
-                        model.description = jsonObject.getString("product_description");
-                        data.add(model);
+                    progressBar.setVisibility(View.GONE);
+
+                    data = new ArrayList();
+
+                    try {
+                        JSONArray jsonArray = new JSONArray(message);
+                        Log.d(TAG, "jsonArray: " + jsonArray);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            HomePageModel model = new HomePageModel();
+                            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                            model.name = jsonObject.getString("product_name");
+                            model.pric = jsonObject.getString("product_price");
+                            model.id = jsonObject.getString("package_no");
+                            model.pic = jsonObject.getString("product_picture");
+                            model.description = jsonObject.getString("product_description");
+                            model.product_stock = jsonObject.getString("product_stock");
+                            data.add(model);
+                        }
+
+                        getActivity().runOnUiThread(() -> {
+                            adapter = new HomePageAdapter();
+                            adapter.setmData(data);
+                            recyView.setAdapter(adapter);
+                            adapter.setClickListener(click);
+
+                        });
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                    getActivity().runOnUiThread(() -> {
-                        adapter = new HomePageAdapter();
-                        adapter.setmData(data);
-                        recyView.setAdapter(adapter);
-                        adapter.setClickListener(click);
-
-                    });
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                });
             }
 
             @Override

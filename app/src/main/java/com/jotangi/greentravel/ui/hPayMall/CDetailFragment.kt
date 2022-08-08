@@ -80,12 +80,12 @@ class CDetailFragment : ProjConstraintFragment() {
             //counting product amount
             cdPlus.setOnClickListener {
                 if (cou < Integer.parseInt(product_stock)) {
-                /*加商品數目*/
-                cou = cou + 1
+                    /*加商品數目*/
+                    cou = cou + 1
                     requireActivity().runOnUiThread {
                         cdCount.text = cou.toString()
                     }
-                }else{
+                } else {
                     showDialog(
                         "", "超過庫存數量 ",
                         DialogInterface.OnClickListener { dialog, which ->
@@ -104,19 +104,18 @@ class CDetailFragment : ProjConstraintFragment() {
                         }
                     }
                     else -> {
-//                        requireActivity().runOnUiThread(Runnable {
-//                            CustomDaialog.showNormal(
-//                                requireActivity(),
-//                                "",
-//                                "商品數目不得小於1，請重新確認",
-//                                "謝謝",
-//                                object : CustomDaialog.OnBtnClickListener {
-//                                    override fun onCheck() {}
-//                                    override fun onCancel() {
-//                                        CustomDaialog.closeDialog()
-//                                    }
-//                                })
-//                        })
+                        CustomDaialog.showNormal(
+                            requireActivity(),
+                            "",
+                            "商品數目不得小於1，請重新確認",
+                            "謝謝",
+                            object : CustomDaialog.OnBtnClickListener {
+                                override fun onCheck() {}
+                                override fun onCancel() {
+                                    CustomDaialog.closeDialog()
+                                }
+                            })
+
                     }
                 }
 
@@ -211,7 +210,7 @@ class CDetailFragment : ProjConstraintFragment() {
                                             })
                                     } else {
                                         showDialog(
-                                            " ", responseMessage,
+                                            " ", "商品補貨中",
                                             DialogInterface.OnClickListener { dialog, which ->
                                                 dialog!!.dismiss()
                                             })
@@ -222,7 +221,7 @@ class CDetailFragment : ProjConstraintFragment() {
                                     if (!code.equals("0x0200")) {
 
                                         showDialog(
-                                            " ", responseMessage,
+                                            " ", "商品補貨中",
                                             { dialog, which ->
                                                 dialog!!.dismiss()
                                             })

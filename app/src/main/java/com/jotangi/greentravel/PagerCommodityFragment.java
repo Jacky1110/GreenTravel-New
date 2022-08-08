@@ -32,6 +32,7 @@ public class PagerCommodityFragment extends ProjConstraintFragment {
     private String product_price;
     private String product_picture;
     private String product_description;
+    private String product_stock;
 
     private int buyCount = 1;
     private AlertDialog dialog = null;
@@ -49,7 +50,8 @@ public class PagerCommodityFragment extends ProjConstraintFragment {
             String product_name,
             String product_price,
             String product_picture,
-            String product_description) {
+            String product_description,
+            String product_stock) {
 
         PagerCommodityFragment fragment = new PagerCommodityFragment();
         Bundle args = new Bundle();
@@ -58,6 +60,7 @@ public class PagerCommodityFragment extends ProjConstraintFragment {
         args.putString("product_price", product_price);
         args.putString("product_picture", product_picture);
         args.putString("product_description", product_description);
+        args.putString("product_stock", product_stock);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,6 +76,7 @@ public class PagerCommodityFragment extends ProjConstraintFragment {
             product_price = getArguments().getString("product_price");
             product_picture = getArguments().getString("product_picture");
             product_description = getArguments().getString("product_description");
+            product_stock = getArguments().getString("product_stock");
             Log.d(TAG, "package_no: " + product_no);
             Log.d(TAG, "product_name: " + product_name);
             Log.d(TAG, "product_price: " + product_price);
@@ -121,8 +125,14 @@ public class PagerCommodityFragment extends ProjConstraintFragment {
 
         // 增加
         btnPlus.setOnClickListener(view -> {
-            buyCount += 1;
-            Count.setText(String.valueOf(buyCount));
+            if (Integer.parseInt(product_stock) > 0) {
+                buyCount += 1;
+                Count.setText(String.valueOf(buyCount));
+            } else {
+                showDialog("", "超過庫存數量", (dialog1, which) -> {
+                    dialog.dismiss();
+                });
+            }
         });
 
         // 減少
@@ -130,6 +140,10 @@ public class PagerCommodityFragment extends ProjConstraintFragment {
             if (buyCount > 1) {
                 buyCount -= 1;
                 Count.setText(String.valueOf(buyCount));
+            }else {
+                showDialog("", "商品數目不得小於1，請重新確認", (dialog1, which) -> {
+                    dialog.dismiss();
+                });
             }
         });
 
@@ -174,7 +188,7 @@ public class PagerCommodityFragment extends ProjConstraintFragment {
                     @Override
                     public void onFailure(String message) {
                         getActivity().runOnUiThread(() ->
-                                Toast.makeText(requireActivity(), "Error", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireActivity(), "加入購物車失敗", Toast.LENGTH_SHORT).show()
                         );
 
                     }
@@ -234,7 +248,7 @@ public class PagerCommodityFragment extends ProjConstraintFragment {
                     @Override
                     public void onFailure(String message) {
                         getActivity().runOnUiThread(() ->
-                                Toast.makeText(requireActivity(), "Error", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireActivity(), "加入購物車失敗", Toast.LENGTH_SHORT).show()
                         );
 
                     }

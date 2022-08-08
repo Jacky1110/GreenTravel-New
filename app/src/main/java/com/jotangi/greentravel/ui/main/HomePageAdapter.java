@@ -90,4 +90,5 @@ class HomePageModel {
     String pric = "";
     String id = "";
     String description = "";
+    String product_stock = "";
 }
