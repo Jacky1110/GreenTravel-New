@@ -61,7 +61,6 @@ public class CouponActivity extends AppCompatActivity {
         initView();
         initHandler();
         handleManager();
-//        handleData();
     }
 
     private void handleManager() {
@@ -101,17 +100,6 @@ public class CouponActivity extends AppCompatActivity {
                     }
                 }
         );
-    }
-
-    private void handleData() {
-        qrconfirm = getIntent().getStringExtra("qrconfirm");
-        product_name = getIntent().getStringExtra("product_name");
-        order_date = getIntent().getStringExtra("order_date");
-        order_no = getIntent().getStringExtra("order_no");
-        Log.d(TAG, "qrconfirm: " + qrconfirm);
-        Log.d(TAG, "product_name: " + product_name);
-        Log.d(TAG, "order_date: " + order_date);
-        Log.d(TAG, "order_no: " + order_no);
     }
 
 

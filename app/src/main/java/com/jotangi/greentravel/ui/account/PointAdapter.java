@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder>{
+public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> {
 
     private String TAG = PointAdapter.class.getSimpleName() + "(TAG)";
     private List<PointModel> mData = new ArrayList<>();
@@ -27,7 +27,7 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder>{
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName =itemView.findViewById(R.id.tv_Name);
+            tvName = itemView.findViewById(R.id.tv_Name);
             tvTime = itemView.findViewById(R.id.tv_PointTime);
             tvPoint = itemView.findViewById(R.id.tv_UsePoint);
             itemView.setOnClickListener(this);
@@ -72,7 +72,7 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder>{
     }
 }
 
-class PointModel{
+class PointModel {
     String name = "";
     String time = "";
     String point = "";

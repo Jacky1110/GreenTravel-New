@@ -1,11 +1,6 @@
 package com.jotangi.greentravel.ui.account;
 
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.jotangi.greentravel.Api.ApiEnqueue;
-import com.jotangi.greentravel.ui.account.PointModel;
 import com.jotangi.greentravel.ProjConstraintFragment;
 import com.jotangi.greentravel.R;
 import com.jotangi.greentravel.ui.hPayMall.MemberBean;

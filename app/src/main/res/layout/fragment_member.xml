@@ -131,6 +131,7 @@
             app:srcCompat="@drawable/btn_qrcode" />
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="0dp"
             android:layout_height="88dp"
             android:layout_marginStart="32dp"
@@ -190,6 +191,38 @@
                     android:textColor="@color/gray_20"
                     android:textSize="15sp" />
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_fix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="110dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_fix" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="預約維修紀錄"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray_20"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <ImageView

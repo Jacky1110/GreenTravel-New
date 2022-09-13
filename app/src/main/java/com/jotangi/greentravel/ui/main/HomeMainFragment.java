@@ -1,5 +1,8 @@
 package com.jotangi.greentravel.ui.main;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -22,6 +26,7 @@ import com.jotangi.greentravel.Api.ApiUrl;
 import com.jotangi.greentravel.PagerCommodityFragment;
 import com.jotangi.greentravel.ProjConstraintFragment;
 import com.jotangi.greentravel.R;
+import com.jotangi.greentravel.ui.store.StoreTabFragment;
 import com.squareup.picasso.Picasso;
 import com.stx.xhb.xbanner.XBanner;
 
@@ -33,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class HomeMainFragment extends ProjConstraintFragment {
+public class HomeMainFragment extends ProjConstraintFragment implements View.OnClickListener {
     ArrayList<HomePageModel> data = new ArrayList<>();
     private String TAG = getClass().getSimpleName() + "(TAG)";
     private ApiEnqueue apiEnqueue;
@@ -44,6 +49,10 @@ public class HomeMainFragment extends ProjConstraintFragment {
     private BannerListBean bannerData;
     private HomePageAdapter adapter;
     private ProgressBar progressBar;
+    private Intent intent;
+    private Uri url;
+
+    private View NewCar, OldCar, FixCar, CarLease, Boutique;
     private CategoryAdapter categoryAdapter;
     private ArrayList<String> categoryList = new ArrayList(Arrays.asList(
             "新車",
@@ -101,23 +110,34 @@ public class HomeMainFragment extends ProjConstraintFragment {
         mXBanner = rootView.findViewById(R.id.banner);
         progressBar = rootView.findViewById(R.id.progressBar);
 
+        NewCar = rootView.findViewById(R.id.v_NewCar);
+        NewCar.setOnClickListener(this);
+        OldCar = rootView.findViewById(R.id.v_OldCar);
+        OldCar.setOnClickListener(this);
+        FixCar = rootView.findViewById(R.id.v_FixCar);
+        FixCar.setOnClickListener(this);
+        CarLease = rootView.findViewById(R.id.v_CarLease);
+        CarLease.setOnClickListener(this);
+        Boutique = rootView.findViewById(R.id.v_Boutique);
+        Boutique.setOnClickListener(this);
+
 
         recyView = rootView.findViewById(R.id.home_RecyView);
         recyView.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
         recyView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
-        initCategoryRecyclerView();
+//        initCategoryRecyclerView();
 
         apiStoreList();
     }
 
-    private void initCategoryRecyclerView() {
-        categoryRecyclerView = rootView.findViewById(R.id.category_recyclerView);
-        categoryAdapter = new CategoryAdapter(
-                getContext(),
-                categoryList
-        );
-        categoryRecyclerView.setAdapter(categoryAdapter);
-    }
+//    private void initCategoryRecyclerView() {
+//        categoryRecyclerView = rootView.findViewById(R.id.category_recyclerView);
+//        categoryAdapter = new CategoryAdapter(
+//                getContext(),
+//                categoryList
+//        );
+//        categoryRecyclerView.setAdapter(categoryAdapter);
+//    }
 
     // 17.商店列表
     private void apiStoreList() {
@@ -275,5 +295,41 @@ public class HomeMainFragment extends ProjConstraintFragment {
             }
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.v_NewCar:
+                intent = new Intent(Intent.ACTION_VIEW);
+                url = Uri.parse("https://www.hsinhungchia.com/brand-type/");
+                intent.setData(url);
+                startActivity(intent);
+                break;
+            case R.id.v_OldCar:
+                intent = new Intent(Intent.ACTION_VIEW);
+                url = Uri.parse("https://www.facebook.com/rilinkiscooter/shop/?referral_code=page_shop_tab&preview=1");
+                intent.setData(url);
+                startActivity(intent);
+                break;
+            case R.id.v_FixCar:
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment_activity_main, StoreTabFragment.Companion.newInstance());
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case R.id.v_CarLease:
+
+                break;
+            case R.id.v_Boutique:
+                intent = new Intent(Intent.ACTION_VIEW);
+                url = Uri.parse("https://rilink.shopstore.tw/category/%E9%85%8D%E4%BB%B6");
+                intent.setData(url);
+                startActivity(intent);
+                break;
+
+        }
+    }
+
 
 }

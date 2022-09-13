@@ -33,6 +33,8 @@ public class PageQrcodeFragment extends ProjConstraintFragment {
     ArrayList data = new ArrayList();
 
 
+
+
     public static PageQrcodeFragment newInstance() {
         PageQrcodeFragment fragment = new PageQrcodeFragment();
         return fragment;

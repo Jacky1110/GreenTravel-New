@@ -15,9 +15,7 @@
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="@id/guideline5"
         app:layout_constraintStart_toStartOf="@id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -94,19 +92,30 @@
         app:layout_constraintEnd_toEndOf="@+id/openTime"
         app:layout_constraintStart_toStartOf="@+id/openTime"
         app:layout_constraintTop_toBottomOf="@+id/openTime" />
-    <TextView
-        android:id="@+id/hotelIntroduction"
+
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="旅館簡介"
-        android:textSize="20sp"
-        android:paddingStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_round_white_content"
-        app:layout_constraintEnd_toEndOf="@id/hotel_intro_title_textView"
         app:layout_constraintBottom_toTopOf="@+id/btnReserve"
-        app:layout_constraintStart_toStartOf="@id/hotel_intro_title_textView"
-        app:layout_constraintTop_toBottomOf="@+id/hotel_intro_title_textView" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/hotel_intro_title_textView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hotelIntroduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_round_white_content"
+                android:paddingStart="10dp"
+                android:text="旅館簡介"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/btnReserve"
