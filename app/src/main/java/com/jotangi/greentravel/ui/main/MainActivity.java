@@ -32,7 +32,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.jotangi.greentravel.AccountCustomerFragment;
 import com.jotangi.greentravel.Api.ApiUrl;
+import com.jotangi.greentravel.CarFixFragment;
 import com.jotangi.greentravel.CropHeadImageActivity;
 import com.jotangi.greentravel.MallPayFragment;
 import com.jotangi.greentravel.MyBaseFragment;
@@ -528,8 +530,24 @@ public class MainActivity extends AppCompatActivity implements MyBaseFragment.Fr
             case ProjBaseFragment.FUNC_MALL_PAY_TO_MEMBER:
                 switchMallToMember(funcno, data);
                 break;
+            case ProjBaseFragment.FUNC_MEMBER_TO_FIX:
+                switchMemberToFix(funcno, data);
+                break;
+            case ProjBaseFragment.FUNC_MEMBER_TO_CUSTOMER:
+                switchMemberToCustomer(funcno, data);
+                break;
         }
 
+    }
+
+    private void switchMemberToCustomer(int funcno, Object data) {
+        AccountCustomerFragment fragment = AccountCustomerFragment.newInstance();
+        switchFragment(fragment, funcno);
+    }
+
+    private void switchMemberToFix(int funcno, Object data) {
+        CarFixFragment fragment = CarFixFragment.newInstance();
+        switchFragment(fragment, funcno);
     }
 
     private void switchMallToMember(int funcno, Object data) {

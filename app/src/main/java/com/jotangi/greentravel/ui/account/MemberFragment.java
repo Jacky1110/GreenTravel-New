@@ -67,9 +67,8 @@ public class MemberFragment extends ProjConstraintFragment {
     private Button bnAccountData;
     private Button loginOutButton;
     private TextView rPointTextView, txtUserName;
-    private LinearLayout bnPacker;
     private RelativeLayout bnRecord;
-    private LinearLayout bnPoint;
+    private LinearLayout bnPoint, bnPacker, btnFix;
     private RelativeLayout bnUserRule;
     private RelativeLayout bnRecommend;
     private RelativeLayout bnCoupon;
@@ -164,6 +163,16 @@ public class MemberFragment extends ProjConstraintFragment {
             }
         });
 
+        btnFix = rootView.findViewById(R.id.item_fix);
+        btnFix.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fragmentListener != null) {
+                    fragmentListener.onAction(FUNC_MEMBER_TO_FIX, null);
+                }
+            }
+        });
+
 
         bnRecord = rootView.findViewById(R.id.item_record);
         bnRecord.setOnClickListener(new View.OnClickListener() {
@@ -205,12 +214,16 @@ public class MemberFragment extends ProjConstraintFragment {
 
         bnQA = rootView.findViewById(R.id.item_qa);
         bnQA.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle("尚未開放");
-            builder.setMessage("敬請期待");
-            builder.setPositiveButton("確定", (dialog, which) -> {
-            });
-            builder.create().show();
+            if (fragmentListener != null) {
+
+                fragmentListener.onAction(FUNC_ACCOUNT_MAIN_TO_QA, null);
+            }
+//            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+//            builder.setTitle("尚未開放");
+//            builder.setMessage("敬請期待");
+//            builder.setPositiveButton("確定", (dialog, which) -> {
+//            });
+//            builder.create().show();
 //            if (fragmentListener != null) {
 //                fragmentListener.onAction(FUNC_ACCOUNT_MAIN_TO_QA, null);
 //            }
@@ -218,12 +231,16 @@ public class MemberFragment extends ProjConstraintFragment {
 
         bnCS = rootView.findViewById(R.id.item_cs);
         bnCS.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle("尚未開放");
-            builder.setMessage("敬請期待");
-            builder.setPositiveButton("確定", (dialog, which) -> {
-            });
-            builder.create().show();
+            if (fragmentListener != null) {
+
+                fragmentListener.onAction(FUNC_MEMBER_TO_CUSTOMER, null);
+            }
+//            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+//            builder.setTitle("尚未開放");
+//            builder.setMessage("敬請期待");
+//            builder.setPositiveButton("確定", (dialog, which) -> {
+//            });
+//            builder.create().show();
         });
 
 //        bnLogout = rootView.findViewById(R.id.bn_logout);
@@ -369,8 +386,8 @@ public class MemberFragment extends ProjConstraintFragment {
             resize = ((float) MAX_WIDTH) / height;
         }
 
-        int nWidth = (int) ((int) width * resize);
-        int nHeight = (int) ((int) height * resize);
+        int nWidth = (int) (width * resize);
+        int nHeight = (int) (height * resize);
 
         tempImage = Bitmap.createScaledBitmap(image, nWidth, nHeight, true);
 

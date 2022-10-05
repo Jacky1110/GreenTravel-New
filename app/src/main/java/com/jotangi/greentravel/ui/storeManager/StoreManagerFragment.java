@@ -38,7 +38,7 @@ public class StoreManagerFragment extends Fragment {
     Spinner spinner;
     JSONArray jsonArray;
 
-    private String storeAcc , storePwd, storeId;
+    private String storeAcc, storePwd, storeId;
 
     private SharedPreferences pref;
 
@@ -71,20 +71,26 @@ public class StoreManagerFragment extends Fragment {
         apiEnqueue.storeIdlist(new ApiEnqueue.resultListener() {
             @Override
             public void onSuccess(String message) {
-                try {
-                    jsonArray = new JSONArray(message);
-                    String[] storeName = new String[jsonArray.length()];
-                    JSONObject storeNameJB;
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        storeNameJB = (JSONObject) jsonArray.get(i);
-                        storeName[i] = storeNameJB.getString("store_name");
-                    }
-                    Log.d(TAG, "storeName: " + storeName);
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            jsonArray = new JSONArray(message);
+                            String[] storeName = new String[jsonArray.length()];
+                            JSONObject storeNameJB;
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                storeNameJB = (JSONObject) jsonArray.get(i);
+                                storeName[i] = storeNameJB.getString("store_name");
+                            }
+                            Log.d(TAG, "storeName: " + storeName);
 
-                    upUiSpinner(storeName);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                            upUiSpinner(storeName);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
 
             }
 

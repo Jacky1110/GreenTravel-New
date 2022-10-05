@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,6 +26,7 @@ import com.jotangi.jotangi2022.ApiConUtils.OnConnect
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import android.widget.ArrayAdapter as ArrayAdapter
 
 /**
  * @Description: 新增需求:健康商城，上方動態tab，下方商品列表
@@ -39,15 +39,27 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
     private val ticketId: String = "api06"
     private val ticketName: String = "套票"
 
+    private var productType: String = ""
+    private var productName: String = ""
+    val data: Bundle? = arguments
+    val outState = Bundle()
+
+    private var spinnerAdapter: ArrayAdapter<String>? = null
+
+
     //private var _binding: FragmentDymaticTabBinding? = null
     private lateinit var proListAdapter: ProListAdapter
     private lateinit var discountAdapter: ProListDiscountAdapter
     private lateinit var binding: FragmentDynamicTabBinding
 
     val ProTypeMap = HashMap<Int, String>()
+    val ProTypeMap1 = HashMap<Int, String>()
+    val ProTypeMap2 = HashMap<Int, String>()
+    val ProTypeMap3 = HashMap<Int, String>()
     val ProListMap = HashMap<Int, String>()
     val listsPL = arrayListOf<Product_list>()
     val lists = arrayListOf<Product_type>()
+    val list = arrayListOf<String>()
 
     companion object {
         fun newInstance() = DynamicTabFragment()
@@ -78,9 +90,30 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
             lists.clear()
         }
 
-        GetProType()
+        if (!outState.getString("position").isNullOrEmpty()) {
+//            binding.productTypeSpinner.setSelection()
+            outState.getString("position")?.let { GetProList(it) }
+        }
 
+        GetProType()
+        handleSpinner()
         return root
+    }
+
+    private fun handleSpinner() {
+        binding.productTypeSpinner.apply {
+            spinnerAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                list
+            )
+            activity?.runOnUiThread {
+                spinnerAdapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                this.adapter = spinnerAdapter
+            }
+
+            this.onItemSelectedListener = this@DynamicTabFragment
+        }
     }
 
     override fun onStart() {
@@ -88,6 +121,11 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
         activityTitleRid = R.string.title_mall
 
         initSearchViewSetting()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     private fun initSearchViewSetting() {
@@ -117,31 +155,81 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
 
     private fun initSpinner() {
         val list = mutableListOf<String>()
-        lists.forEachIndexed { index, item ->
-            val typeName = item.producttype_name
 
-            if (!typeName.isNullOrEmpty()) {
-                list.add(typeName)
+        val data: Bundle? = arguments
+        if (data != null) {
+            productName = data.getString("Name", "")
+            productType = data.getString("type", "")
+            Log.d(TAG, "productType: ${productType}")
+            if (productName.equals("i租車") && productType.equals("Rent")) {
+                lists.forEachIndexed { index, item ->
+                    val typeName = item.producttype_name
+
+                    if (!typeName.isNullOrEmpty()) {
+                        list.add(typeName)
+                    }
+
+                    item.product_type?.let {
+                        ProTypeMap1[index] = it
+                    }
+                }
+            } else if (productName.equals("i租車") && productType.equals("03")) {
+                lists.forEachIndexed { index, item ->
+                    val typeName = item.producttype_name
+
+                    if (!typeName.isNullOrEmpty()) {
+                        list.add(typeName)
+                    }
+
+                    item.product_type?.let {
+                        ProTypeMap1[index] = it
+                    }
+                }
+
             }
+            if (productName.equals("改裝精品配件") && productType.equals("SC001")) {
+                lists.forEachIndexed { index, item ->
+                    val typeName = item.producttype_name
 
-            item.product_type?.let {
-                ProTypeMap[index] = it
+                    if (!typeName.isNullOrEmpty()) {
+                        list.add(typeName)
+                    }
+
+                    item.product_type?.let {
+                        ProTypeMap2[index] = it
+                    }
+                }
+            } else if (productName.equals("改裝精品配件") && productType.equals("02")) {
+                lists.forEachIndexed { index, item ->
+                    val typeName = item.producttype_name
+
+                    if (!typeName.isNullOrEmpty()) {
+                        list.add(typeName)
+                    }
+
+                    item.product_type?.let {
+                        ProTypeMap2[index] = it
+                    }
+                }
+            }
+        } else {
+            lists.forEachIndexed { index, item ->
+                val typeName = item.producttype_name
+
+                if (!typeName.isNullOrEmpty()) {
+                    list.add(typeName)
+                }
+
+                item.product_type?.let {
+                    ProTypeMap[index] = it
+                }
             }
         }
 
-        binding.productTypeSpinner.apply {
-            ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                list
-            ).also { adapter ->
-                activity?.runOnUiThread {
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    this.adapter = adapter
-                }
-            }
-
-            this.onItemSelectedListener = this@DynamicTabFragment
+        activity?.runOnUiThread {
+            spinnerAdapter?.clear()
+            spinnerAdapter?.addAll(list)
+            spinnerAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -152,7 +240,30 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
             } else {
                 GetProList(it1)
             }
+            saveBundle(it1)
         }
+        ProTypeMap1[position]?.let { it ->
+            binding.productTypeSpinner.setSelection(1)
+            GetProList(productType)
+        }
+        ProTypeMap2[position]?.let { its ->
+            binding.productTypeSpinner.setSelection(2)
+            GetProList(productType)
+        }
+//        ProTypeMap3[position]?.let { it2 ->
+//            val pos = outState?.getString("position", "")
+//            val i: Int = pos?.toInt()!!
+//            binding.productTypeSpinner.setSelection(i)
+//            if (ticketId == it2) {
+//                GetTicket()
+//            } else {
+//                GetProList(pos)
+//            }
+//        }
+    }
+
+    private fun saveBundle(it1: String) {
+        outState?.putString("position", it1)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -222,7 +333,7 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
                     val transaction: FragmentTransaction =
                         requireActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.nav_host_fragment_activity_main, fragment)
-                    transaction.addToBackStack(null)
+                    transaction.addToBackStack(DynamicTabFragment.javaClass.simpleName)
                     transaction.commit()
                 }
 
@@ -244,7 +355,7 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
                     args.putString("product_picture", it.product_picture.toString())
                     args.putString("product_price", it.product_price.toString())
                     args.putString("product_description", it.product_description.toString())
-                    args.putString("product_stock",it.product_stock.toString())
+                    args.putString("product_stock", it.product_stock.toString())
                     fragment.setArguments(args)
                     val transaction: FragmentTransaction =
                         requireActivity().getSupportFragmentManager().beginTransaction();
@@ -330,6 +441,7 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
                     Log.d(TAG, "lists: $lists")
 
 //                    tabSetting(lists)
+//                    handleProduct(lists)
                     initSpinner()
                 }
 
@@ -349,45 +461,47 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
 
         apiEnqueue.package_list(object : ApiEnqueue.resultListener {
             override fun onSuccess(message: String?) {
-                Pnoshow()
+                activity!!.runOnUiThread {
+                    Pnoshow()
 
-                listsPL.clear()
+                    listsPL.clear()
 
-                try {
+                    try {
 
-                    val jsonArray = JSONArray(message)
-                    var jsonObject: JSONObject
+                        val jsonArray = JSONArray(message)
+                        var jsonObject: JSONObject
 
-                    for (i in 0 until jsonArray.length()) {
+                        for (i in 0 until jsonArray.length()) {
 
-                        jsonObject = jsonArray[i] as JSONObject
+                            jsonObject = jsonArray[i] as JSONObject
 
-                        listsPL.add(
-                            Product_list(
-                                product_name = jsonObject.getString("product_name"),
-                                product_price = jsonObject.getString("product_price"),
-                                product_picture = jsonObject.getString("product_picture"),
-                                product_no = jsonObject.getString("package_no"),
-                                product_description = jsonObject.getString("product_description"),
-                                product_stock = jsonObject.getString("product_stock")
+                            listsPL.add(
+                                Product_list(
+                                    product_name = jsonObject.getString("product_name"),
+                                    product_price = jsonObject.getString("product_price"),
+                                    product_picture = jsonObject.getString("product_picture"),
+                                    product_no = jsonObject.getString("package_no"),
+                                    product_description = jsonObject.getString("product_description"),
+                                    product_stock = jsonObject.getString("product_stock")
+                                )
                             )
-                        )
-                    }
-
-                    requireActivity().runOnUiThread {
-                        binding.rT.apply {
-                            proListAdapter = ProListAdapter()
-                            layoutManager = GridLayoutManager(context, 2)
-                            adapter = proListAdapter
                         }
 
-                        proListAdapter.updateDataSource(listsPL)
+                        requireActivity().runOnUiThread {
+                            binding.rT.apply {
+                                proListAdapter = ProListAdapter()
+                                layoutManager = GridLayoutManager(context, 2)
+                                adapter = proListAdapter
+                            }
+
+                            proListAdapter.updateDataSource(listsPL)
+                        }
+
+                        tabContext()
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
                     }
-
-                    tabContext()
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
                 }
             }
 
@@ -410,49 +524,50 @@ class DynamicTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedL
             MemberBean.member_pwd,
             object : OnConnect {
                 override fun onSuccess(jsonString: String?) {
+                    activity!!.runOnUiThread {
+                        Pnoshow()
 
-                    Pnoshow()
+                        listsPL.clear()
 
-                    listsPL.clear()
+                        try {
 
-                    try {
+                            val jsonArray = JSONArray(jsonString)
 
-                        val jsonArray = JSONArray(jsonString)
+                            for (i in 0 until jsonArray.length()) {
 
-                        for (i in 0 until jsonArray.length()) {
+                                val jsonObject = jsonArray[i] as JSONObject
+                                val proType: String = jsonObject.getString("product_type")
 
-                            val jsonObject = jsonArray[i] as JSONObject
-                            val proType: String = jsonObject.getString("product_type")
-
-                            when {
-                                type.equals(proType) -> {
-                                    listsPL.add(
-                                        Product_list(
-                                            product_type = jsonObject.getString("product_type"),
-                                            product_name = jsonObject.getString("product_name"),
-                                            product_price = jsonObject.getString("product_price"),
-                                            product_no = jsonObject.getString("product_no"),
-                                            product_picture = jsonObject.getString("product_picture"),
+                                when {
+                                    type.equals(proType) -> {
+                                        listsPL.add(
+                                            Product_list(
+                                                product_type = jsonObject.getString("product_type"),
+                                                product_name = jsonObject.getString("product_name"),
+                                                product_price = jsonObject.getString("product_price"),
+                                                product_no = jsonObject.getString("product_no"),
+                                                product_picture = jsonObject.getString("product_picture"),
+                                            )
                                         )
-                                    )
+                                    }
                                 }
                             }
-                        }
 
-                        requireActivity().runOnUiThread {
-                            binding.rT.apply {
-                                proListAdapter = ProListAdapter()
-                                layoutManager = GridLayoutManager(context, 2)
-                                adapter = proListAdapter
+                            requireActivity().runOnUiThread {
+                                binding.rT.apply {
+                                    proListAdapter = ProListAdapter()
+                                    layoutManager = GridLayoutManager(context, 2)
+                                    adapter = proListAdapter
+                                }
+
+                                proListAdapter.updateDataSource(listsPL)
                             }
 
-                            proListAdapter.updateDataSource(listsPL)
+                            tackContext()
+
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
-
-                        tackContext()
-
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
                     }
                 }
 

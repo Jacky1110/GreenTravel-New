@@ -68,6 +68,11 @@ public class ProjBaseFragment extends MyBaseFragment {
     public final static int FUNC_FILL_TIME = 11;
     public final static int FUNC_APP_STORETAB = 12;
 
+    //維修紀錄
+    public final static int FUNC_MEMBER_TO_FIX = 50;
+
+    public final static int FUNC_MEMBER_TO_CUSTOMER = 55;
+
 
     public final static int TAG_ZERO = 0;
     public final static int TAG_ONE = 1;

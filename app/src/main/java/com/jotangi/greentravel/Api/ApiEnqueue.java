@@ -64,6 +64,11 @@ public class ApiEnqueue {
     private final String TASK_SHOPPINGCART_LIST = "TASK_SHOPPINGCART_LIST";
     private final String TASK_QR_UNCONFIRM_LIST = "TASK_QR_UNCONFIRM_LIST";
     private final String TASK_ECORDER_INFO = "TASK_ECORDER_INFO";
+    private final String TASK_FIX_MOTOR_LIST = "TASK_FIX_MOTOR_LIST";
+    public final String TASK_FIX_MOTOR_CANCEL = "TASK_FIX_MOTOR_CANCEL";
+    public final String TASK_BANNER_LIST = "TASK_BANNER_LIST";
+    private final String TASK_PRODUCT_TYPE = "TASK_PRODUCT_TYPE";
+    public final String TASK_PRODUCT_LIST = "TASK_PRODUCT_LIST";
 
 
     // 1.使用者登入
@@ -137,6 +142,50 @@ public class ApiEnqueue {
 
         runOkHttp(url, formBody);
     }
+
+
+    //4.商城商品類別
+    public void product_type(resultListener listen) {
+
+        runTask = TASK_PRODUCT_TYPE;
+
+        listener = listen;
+
+        String url = ApiUrl.API_URL + ApiUrl.product_type;
+        Log.d(TAG, "url: " + url);
+
+        FormBody formBody = new FormBody.Builder()
+                .add("member_id", MemberBean.member_id)
+                .add("member_pwd", MemberBean.member_pwd)
+                .build();
+        Log.d(TAG, "member_id: " + MemberBean.member_id);
+        Log.d(TAG, "member_pwd: " + MemberBean.member_pwd);
+
+        runOkHttp(url, formBody);
+    }
+
+    // 5.商城商品列表
+    public void product_list(String type, resultListener listen) {
+
+        runTask = TASK_PRODUCT_LIST;
+
+        listener = listen;
+
+        String url = ApiUrl.API_URL + ApiUrl.product_list;
+        Log.d(TAG, "url: " + url);
+
+        FormBody formBody = new FormBody.Builder()
+                .add("member_id", MemberBean.member_id)
+                .add("member_pwd", MemberBean.member_pwd)
+                .add("product_type", type)
+                .build();
+        Log.d(TAG, "member_id: " + MemberBean.member_id);
+        Log.d(TAG, "member_pwd: " + MemberBean.member_pwd);
+        Log.d(TAG, "type: " + type);
+
+        runOkHttp(url, formBody);
+    }
+
 
     // 6.商城套票列表
     public void package_list(resultListener listen) {
@@ -697,6 +746,72 @@ public class ApiEnqueue {
 
     }
 
+    // 35.查詢會員預約服務列表
+    public void fixMotorList(String no, resultListener listen) {
+
+        runTask = TASK_FIX_MOTOR_LIST;
+
+        listener = listen;
+
+        String url = ApiUrl.API_URL + ApiUrl.fixmotor_list;
+        Log.d(TAG, "url: " + url);
+
+        FormBody formBody = new FormBody.Builder()
+                .add("member_id", MemberBean.member_id)
+                .add("member_pwd", MemberBean.member_pwd)
+                .add("motor_no", no)
+                .build();
+
+        Log.d(TAG, "member_id: " + MemberBean.member_id);
+        Log.d(TAG, "member_pwd: " + MemberBean.member_pwd);
+        Log.d(TAG, "motor_no: " + no);
+
+        runOkHttps(url, formBody);
+    }
+
+    // 36.會員取消預約服務
+    public void fixmotorCancel(String bid, resultListener listen) {
+
+        runTask = TASK_FIX_MOTOR_CANCEL;
+
+        listener = listen;
+
+        String url = ApiUrl.API_URL + ApiUrl.fixmotor_cancel;
+        Log.d(TAG, "url: " + url);
+
+        FormBody formBody = new FormBody.Builder()
+                .add("member_id", MemberBean.member_id)
+                .add("member_pwd", MemberBean.member_pwd)
+                .add("bid", bid)
+                .build();
+
+        Log.d(TAG, "member_id: " + MemberBean.member_id);
+        Log.d(TAG, "member_pwd: " + MemberBean.member_pwd);
+        Log.d(TAG, "bid: " + bid);
+
+        runOkHttps(url, formBody);
+    }
+
+    // 37.新增取得banner資訊
+    public void bannerList(resultListener listen) {
+
+        runTask = TASK_BANNER_LIST;
+
+        listener = listen;
+
+        String url = ApiUrl.API_URL + ApiUrl.banner_list;
+        Log.d(TAG, "url: " + url);
+
+        FormBody formBody = new FormBody.Builder()
+                .add("member_id", MemberBean.member_id)
+                .add("member_pwd", MemberBean.member_pwd)
+                .build();
+        Log.d(TAG, "member_id: " + MemberBean.member_id);
+        Log.d(TAG, "member_pwd: " + MemberBean.member_pwd);
+
+        runOkHttps(url, formBody);
+    }
+
     private void runOkHttps(String url, RequestBody requestBody) {
         Request request = new Request.Builder().url(url).post(requestBody).build();
 
@@ -777,6 +892,14 @@ public class ApiEnqueue {
             // 3.取得會員資料
             case TASK_USER_GET_DATA:
                 taskUserGetData(body, TASK_USER_GET_DATA);
+                break;
+            // 4.商城商品類別
+            case TASK_PRODUCT_TYPE:
+                taskProductType(body);
+                break;
+            // 5.商城商品列表
+            case TASK_PRODUCT_LIST:
+                taskProductList(body);
                 break;
 
             // 6.商城套票列表
@@ -883,11 +1006,23 @@ public class ApiEnqueue {
             case TASK_FETCH_POINT_HISTORY:
                 taskFetchPointHistory(body, TASK_FETCH_POINT_HISTORY);
                 break;
+            // 35.查詢會員預約服務列表
+            case TASK_FIX_MOTOR_LIST:
+                taskFixMotorList(body, TASK_FETCH_POINT_HISTORY);
+                break;
+            //36.會員取消預約服務
+            case TASK_FIX_MOTOR_CANCEL:
+                taskFixMotorCancel(body, TASK_FIX_MOTOR_CANCEL);
+                break;
+            // 37.新增取得banner資訊
+            case TASK_BANNER_LIST:
+                taskBannerList(body);
+                break;
+
         }
 
 
     }
-
 
     // 1.使用者登入
     private void taskMembrLogin(String body, String task) {
@@ -951,6 +1086,16 @@ public class ApiEnqueue {
             e.printStackTrace();
         }
 
+    }
+
+    // 4.商城商品類別
+    private void taskProductType(String body) {
+        listener.onSuccess(body);
+    }
+
+    // 5.商城商品列表
+    private void taskProductList(String body) {
+        listener.onSuccess(body);
     }
 
     // 6.商城套票列表
@@ -1295,6 +1440,52 @@ public class ApiEnqueue {
             Log.d(TAG, task + " 剖析失敗：欄位不存在");
             e.printStackTrace();
         }
+    }
+
+    // 35.查詢會員預約服務列表
+    private void taskFixMotorList(String body, String task) {
+        try {
+            JSONObject jsonObject = new JSONObject(body);
+            String code = jsonObject.getString("code");
+            Log.d(TAG, "code: " + code);
+
+            if ("0x0200".equals(code)) {
+                listener.onSuccess(jsonObject.getString("data"));
+            }
+
+        } catch (JSONException e) {
+            Log.d(TAG, task + " 剖析失敗：欄位不存在");
+            e.printStackTrace();
+        }
+
+    }
+
+    //36.會員取消預約服務
+    private void taskFixMotorCancel(String body, String task) {
+        try {
+            // JASON需要try/catch
+            JSONObject jsonObject = new JSONObject(body);
+            String code = jsonObject.getString("code");
+            // code = "0x0200"
+            Log.d(TAG, "code: " + code);
+            String responseMessage = jsonObject.getString("responseMessage");
+            Log.d(TAG, "responseMessage: " + responseMessage);
+
+            // 判斷 A.equals(B)
+            if ("0x0200".equals(code)) {
+                listener.onSuccess(responseMessage);
+            } else {
+                listener.onFailure(responseMessage);
+            }
+        } catch (JSONException e) {
+            Log.d(TAG, task + " 剖析失敗：欄位不存在");
+            e.printStackTrace();
+        }
+    }
+
+    // 37.新增取得banner資訊
+    private void taskBannerList(String body) {
+        listener.onSuccess(body);
     }
 }
 

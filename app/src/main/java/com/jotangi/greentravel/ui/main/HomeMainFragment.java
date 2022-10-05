@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jotangi.greentravel.Api.ApiEnqueue;
 import com.jotangi.greentravel.BannerListBean;
+import com.jotangi.greentravel.ui.hPayMall.DynamicTabFragment;
 import com.jotangi.greentravel.ui.store.HotelIntroduceFragment;
 import com.jotangi.greentravel.Api.ApiUrl;
 import com.jotangi.greentravel.PagerCommodityFragment;
@@ -46,6 +47,8 @@ public class HomeMainFragment extends ProjConstraintFragment implements View.OnC
     private RecyclerView categoryRecyclerView;
     private XBanner mXBanner;
     private ArrayList<BannerListBean> bannerListBeans;
+    private ArrayList<ProductBean> productBeans;
+    private ProductBean productData;
     private BannerListBean bannerData;
     private HomePageAdapter adapter;
     private ProgressBar progressBar;
@@ -124,7 +127,6 @@ public class HomeMainFragment extends ProjConstraintFragment implements View.OnC
 
         recyView = rootView.findViewById(R.id.home_RecyView);
         recyView.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
-        recyView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
 //        initCategoryRecyclerView();
 
         apiStoreList();
@@ -142,7 +144,7 @@ public class HomeMainFragment extends ProjConstraintFragment implements View.OnC
     // 17.商店列表
     private void apiStoreList() {
         progressBar.setVisibility(View.VISIBLE);
-        apiEnqueue.storeList(new ApiEnqueue.resultListener() {
+        apiEnqueue.bannerList(new ApiEnqueue.resultListener() {
             @Override
             public void onSuccess(String message) {
                 requireActivity().runOnUiThread(new Runnable() {
@@ -160,18 +162,12 @@ public class HomeMainFragment extends ProjConstraintFragment implements View.OnC
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonObject = (JSONObject) jsonArray.get(i);
                                 bannerData = new BannerListBean();
-                                bannerData.setBanner_storeName(jsonObject.getString("store_name"));
-                                bannerData.setBanner_picture(jsonObject.getString("store_picture"));
-                                bannerData.setBanner_link(jsonObject.getString("store_id"));
-                                bannerData.setBanner_openTime(jsonObject.getString("store_opentime"));
-                                bannerData.setBanner_telephone(jsonObject.getString("store_phone"));
-                                bannerData.setBanner_hotelIntroduction(jsonObject.getString("store_descript"));
-                                bannerData.setBanner_fixmotor(jsonObject.getString("fixmotor"));
+                                bannerData.setBanner_picture(jsonObject.getString("banner_picture"));
+                                bannerData.setBanner_link(jsonObject.getString("banner_link"));
                                 bannerListBeans.add(bannerData);
                             }
 
                             setStoreList(bannerListBeans);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -201,20 +197,26 @@ public class HomeMainFragment extends ProjConstraintFragment implements View.OnC
         mXBanner.setOnItemClickListener(new XBanner.OnItemClickListener() {
             @Override
             public void onItemClick(XBanner banner, Object model, View view, int position) {
-                HotelIntroduceFragment fragment = new HotelIntroduceFragment();
-                Bundle args = new Bundle();
-                args.putString("store_name", data.get(position).getBanner_storeName());
-                args.putString("store_picture", data.get(position).getBanner_picture());
-                args.putString("store_id", data.get(position).getBanner_link());
-                args.putString("store_opentime", data.get(position).getBanner_openTime());
-                args.putString("store_phone", data.get(position).getBanner_telephone());
-                args.putString("store_descript", data.get(position).getBanner_hotelIntroduction());
-                args.putString("store_fixmotor", data.get(position).getBanner_fixmotor());
-                fragment.setArguments(args);
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                if (!data.get(position).getBanner_link().isEmpty()) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    Uri uri = Uri.parse(data.get(position).getBanner_link()); //拿官網測試用
+                    intent.setData(uri);
+                    startActivity(intent);
+                }
+//                HotelIntroduceFragment fragment = new HotelIntroduceFragment();
+//                Bundle args = new Bundle();
+//                args.putString("store_name", data.get(position).getBanner_storeName());
+//                args.putString("store_picture", data.get(position).getBanner_picture());
+//                args.putString("store_id", data.get(position).getBanner_link());
+//                args.putString("store_opentime", data.get(position).getBanner_openTime());
+//                args.putString("store_phone", data.get(position).getBanner_telephone());
+//                args.putString("store_descript", data.get(position).getBanner_hotelIntroduction());
+//                args.putString("store_fixmotor", data.get(position).getBanner_fixmotor());
+//                fragment.setArguments(args);
+//                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
 
             }
         });
@@ -282,7 +284,6 @@ public class HomeMainFragment extends ProjConstraintFragment implements View.OnC
 
                         });
 
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -295,6 +296,8 @@ public class HomeMainFragment extends ProjConstraintFragment implements View.OnC
             }
         });
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -313,19 +316,46 @@ public class HomeMainFragment extends ProjConstraintFragment implements View.OnC
                 startActivity(intent);
                 break;
             case R.id.v_FixCar:
+                StoreTabFragment fragment1 = new StoreTabFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("Name", "購車維修保養");
+                fragment1.setArguments(bundle);
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.nav_host_fragment_activity_main, StoreTabFragment.Companion.newInstance());
+                transaction.replace(R.id.nav_host_fragment_activity_main, fragment1);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case R.id.v_CarLease:
-
+                DynamicTabFragment fragment2 = new DynamicTabFragment();
+                Bundle args = new Bundle();
+                args.putString("Name", "i租車");
+                args.putString("type", "Rent");
+//                args.putString("type", "03");
+                fragment2.setArguments(args);
+                FragmentTransaction transaction1 = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction1.replace(R.id.nav_host_fragment_activity_main, fragment2);
+                transaction1.addToBackStack(null);
+                transaction1.commit();
+//                intent = new Intent(Intent.ACTION_VIEW);
+//                url = Uri.parse("https://rilink.shopstore.tw/category/%E7%A7%9F%E8%BB%8A%E6%9C%8D%E5%8B%99");
+//                intent.setData(url);
+//                startActivity(intent);
                 break;
             case R.id.v_Boutique:
-                intent = new Intent(Intent.ACTION_VIEW);
-                url = Uri.parse("https://rilink.shopstore.tw/category/%E9%85%8D%E4%BB%B6");
-                intent.setData(url);
-                startActivity(intent);
+                DynamicTabFragment fragment3 = new DynamicTabFragment();
+                Bundle arg = new Bundle();
+                arg.putString("Name", "改裝精品配件");
+                arg.putString("type", "SC001");
+//                arg.putString("type", "02");
+                fragment3.setArguments(arg);
+                FragmentTransaction transaction3 = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction3.replace(R.id.nav_host_fragment_activity_main, fragment3);
+                transaction3.addToBackStack(null);
+                transaction3.commit();
+//                intent = new Intent(Intent.ACTION_VIEW);
+//                url = Uri.parse("https://rilink.shopstore.tw/category/%E9%85%8D%E4%BB%B6");
+//                intent.setData(url);
+//                startActivity(intent);
                 break;
 
         }

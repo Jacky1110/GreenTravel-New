@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-condensed-light"
-                android:text="商品名稱:體驗卷"
+                android:text="商品名稱:體驗券"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 

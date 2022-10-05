@@ -10,7 +10,7 @@
     <string name="main_point_start">購物商城</string>
     <string name="main_business">商家據點</string>
     <string name="main_member">會員中心</string>
-    <string name="main_page">票卷</string>
+    <string name="main_page">票券</string>
     <string name="service_type">服務類型</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -22,7 +22,7 @@
     <string name="pdData">收件資訊</string>
     <string name="can_Use_Point">可使用點數:</string>
     <string name="use_point">使用點數:</string>
-    <string name="pd_11">優惠卷</string>
+    <string name="pd_11">優惠券</string>
     <string name="pd_14">紅利點數折抵 本單可折抵 $0</string>
     <string name="pd_15">* 配送開立發票方式</string>
     <string name="pd_21">發票資料</string>
@@ -56,7 +56,7 @@
     <string name="account_listitem_data">會員資料</string>
     <string name="account_listitem_point">紅利點數紀錄</string>
     <string name="account_listitem_record">我的訂單</string>
-    <string name="account_listitem_packer">我的票卷</string>
+    <string name="account_listitem_packer">我的票券</string>
     <string name="account_listitem_rule">協議及聲明</string>
     <string name="account_listitem_qa">常見問題</string>
     <string name="account_listitem_cs">聯絡客服</string>
@@ -125,7 +125,7 @@ App服務的參考依據，此記錄為內部應用，決不對外公佈。
     <string name="login">登入</string>
     <string name="logout">登出</string>
     <string name="register">註冊</string>
-    <string name="account_rule">會員使用條款</string>
+    <string name="account_rule">常見問題</string>
 
     <string name="welcome_register">歡迎加入會員</string>
     <string name="name">姓名</string>

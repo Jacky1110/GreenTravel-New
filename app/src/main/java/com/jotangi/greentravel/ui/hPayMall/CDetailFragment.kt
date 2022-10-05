@@ -204,7 +204,7 @@ class CDetailFragment : ProjConstraintFragment() {
                                 type.equals(1) -> {
                                     if (code.equals("0x0200")) {
                                         showDialog(
-                                            "", "加入購物車成功 ",
+                                            "加入購物車成功", "請盡速完成付款，商品於購物車中僅留存3天",
                                             DialogInterface.OnClickListener { dialog, which ->
                                                 dialog!!.dismiss()
                                             })

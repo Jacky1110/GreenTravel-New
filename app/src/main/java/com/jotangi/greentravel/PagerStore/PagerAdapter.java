@@ -81,7 +81,7 @@ public class PagerAdapter extends RecyclerView.Adapter<PagerAdapter.ViewHolder> 
         } else{
             holder.buyDateTV.setText("購買日期: " + mData.get(position).order_date);
             holder.orderNoTV.setText("訂單編號: " + mData.get(position).order_no);
-            holder.mathTV.setText("票卷數量: " + mData.get(position).order_qty);
+            holder.mathTV.setText("票券數量: " + mData.get(position).order_qty);
 
         }
 

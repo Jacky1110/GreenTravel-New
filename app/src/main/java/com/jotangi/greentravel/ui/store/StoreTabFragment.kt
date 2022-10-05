@@ -29,12 +29,17 @@ class StoreTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedLis
     private lateinit var binding: FragmentStoreTypeBinding
     private lateinit var storeListAdapter: StoreListAdapter
 
+    private var spinnerAdapter: ArrayAdapter<String>? = null
+
     lateinit var tab1: String
     val ProTypeMap = HashMap<Int, String>()
     val ProListMap = HashMap<Int, String>()
     val listsPL = arrayListOf<Store_List>()
     val istrue: Boolean = false
     val lists = arrayListOf<Store_type>()
+    val list = arrayListOf<String>()
+
+    lateinit var sid: String
 
     companion object {
         const val TAG = "StoreTabFragment"
@@ -68,6 +73,8 @@ class StoreTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedLis
             }
 
             GetProType()
+            handleProduct()
+            handleSpinner()
         }
 
 //        Timer().schedule(500) {
@@ -101,6 +108,31 @@ class StoreTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedLis
         return root
     }
 
+    private fun handleSpinner() {
+        binding.storeTypeSpinner.apply {
+            spinnerAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                list
+            )
+            activity?.runOnUiThread {
+                spinnerAdapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                this.adapter = spinnerAdapter
+            }
+
+            this.onItemSelectedListener = this@StoreTabFragment
+        }
+
+
+    }
+
+    private fun handleProduct() {
+        val data: Bundle? = arguments
+        if (data != null) {
+            sid = data.getString("sid", "")
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         activityTitleRid = R.string.title_store
@@ -127,20 +159,12 @@ class StoreTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedLis
             }
         }
 
-        binding.storeTypeSpinner.apply {
-            ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                list
-            ).also { adapter ->
-                activity?.runOnUiThread {
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    this.adapter = adapter
-                }
-            }
-
-            this.onItemSelectedListener = this@StoreTabFragment
+        activity?.runOnUiThread {
+            spinnerAdapter?.clear()
+            spinnerAdapter?.addAll(list)
+            spinnerAdapter?.notifyDataSetChanged()
         }
+
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -276,7 +300,7 @@ class StoreTabFragment : ProjConstraintFragment(), AdapterView.OnItemSelectedLis
 //                    listsPL.clear()
                     if (activity != null) {
                         activity!!.runOnUiThread {
-
+                            listsPL.clear()
                             try {
                                 val data: Bundle? = arguments
                                 val jsonArray = JSONArray(jsonString)
